@@ -1,0 +1,25 @@
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.searchBar {
+    display: flex;
+    gap: 10px;
+    margin-right: 1%;
+    width: 400px;
+    max-height: 50px;
+    padding: 5px;
+}
+.btnPrimary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 150px;
+}
+.button {
+    border: none;
+    background: none;
+    color: white;
+}

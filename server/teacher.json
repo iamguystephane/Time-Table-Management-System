@@ -1,0 +1,25 @@
+{
+  "teacher": [
+    {
+      "id": 1,
+      "Name": "Yuven Carlson",
+      "email": "crestlancing@gmail.com",
+      "phone": "672280977",
+      "department": "Software Engineering"
+    },
+    {
+      "id": 2,
+      "Name": "Abanji Dieudonne",
+      "email": "abanji@gmail.com",
+      "phone": "670878485",
+      "department": "Software Engineering"
+    },
+    {
+      "id": 3,
+      "Name": "Che Kingsley",
+      "email": "cheking@gmail.com",
+      "phone": "670878485",
+      "department": "Software Engineering"
+    }
+  ]
+}

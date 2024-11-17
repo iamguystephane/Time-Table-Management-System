@@ -1,0 +1,29 @@
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loading {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 7px solid transparent;
+  border-top: 7px solid #333;
+  border-left: 7px solid #333;
+  animation: loading-animation 1.5s linear infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

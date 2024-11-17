@@ -1,0 +1,143 @@
+.sidebar {
+  height: 100vh;
+  width: 15%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background: #333;
+  margin: 0;
+  transition: all 360ms ease-in-out;
+}
+
+.sidebar.collapsed {
+  width: 45px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.menuBtn, .backBtn{
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  padding: 5px;
+  transition: background 360ms ease-in-out;
+  border-radius: 8px;
+}
+.backBtn {
+  top: 50;
+}
+.menuBtn:hover, .backBtn:hover {
+  background: rgba(255, 255, 255, 0.068);
+  color: white;
+}
+.manBtn, .tableBtn {
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.manBtn.center, .tableBtn.center {
+    position: absolute;
+    left: -10;
+    padding: 5px;
+    transition: background 360ms ease-in-out;
+}
+.manBtn.center:hover, .tableBtn.center:hover {
+    background:rgba(255, 255, 255, 0.068);
+}
+.ul {
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.li, .list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  transition: opacity, background 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+  position: absolute;
+  top: 20%;
+  gap: 10px;
+  width: 100%;
+}
+.list {
+  top: 35%;
+}
+.noList, .noListMan {
+    position: absolute;
+    left: 10;
+    color: white;
+    text-decoration: none;
+    top: 35%;
+}
+.noListMan {
+    top: 20%;
+}
+.noList:hover, .noListMan:hover {
+    color: white;
+}
+.noListMan span, .noList span {
+    display: none;
+}
+.li:hover,
+.list:hover {
+  background-color: rgba(255, 255, 255, 0.068);
+  color: white;
+}
+.li span {
+  opacity: 1;
+}
+.collapsed .ul span {
+  opacity: 0;
+}
+.profile {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 360ms ease-in-out;
+}
+.profile:hover {
+  background:rgba(255, 255, 255, 0.068);
+}
+.profileCollapse span {
+  display: none;
+}
+.image {
+  border-radius: 50%;
+}
+.image.collapsedImage {
+  position: absolute;
+  left: 1;
+  bottom: 20;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 360ms ease-in-out;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.image.collapsedImage:hover {
+  background:rgba(255, 255, 255, 0.068);
+}
+.profile span {
+  color: white;
+}

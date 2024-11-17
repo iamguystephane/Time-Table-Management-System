@@ -1,0 +1,52 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.displayStudents {
+    width: 100%;
+}
+.table {
+    width: 95%;
+    margin-top: 5%;
+    transition: all 360ms ease-in-out;
+}
+.noContent, .fetchError {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 50vh; 
+  width: 95%;
+  text-align: center;
+  color: #555;
+  font-size: 1.2rem; 
+}
+.fetchError {
+  flex-direction: column;
+  gap: 10px;
+}
+.loading {
+    display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 80vh; 
+  width: 95%;
+}
+.pencilIcon {
+  cursor: pointer;
+  color: yellowgreen;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+.pencilIcon:hover, .trashIcon:hover {
+  background: white;
+}
+.trashIcon {
+  cursor: pointer;
+  color: red;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}

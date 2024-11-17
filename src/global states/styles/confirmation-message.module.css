@@ -1,0 +1,22 @@
+.container {
+  background: green;
+  padding: 10px;
+  width: 30%;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.hide {
+  opacity: 0;
+  transform: translateX(-800px);
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

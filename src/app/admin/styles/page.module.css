@@ -1,0 +1,39 @@
+.formContainer {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    position: fixed;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.formDiv {
+    width: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deleteDiv {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page {
+    display: flex;
+}
+.mainOpen {
+    margin-left: 18%;
+    margin-top: 1em;
+    transition: all 360ms ease-in-out;
+    width: 100%;
+}
+.mainClosed {
+    margin-left: 5%;
+    margin-top: 1em;
+    transition: all 360ms ease-in-out;
+    width: 100%;
+}

@@ -1,0 +1,27 @@
+{
+  "student": [
+    {
+      "id": 1,
+      "Name": "Guy Stephane",
+      "email": "gstephane138@gmail.com",
+      "phone": "672280977",
+      "department": "SWE",
+      "departmentAbbreviation": "Software Engineering"
+    },
+    {
+      "id": 2,
+      "Name": "Rostand Bright",
+      "email": "rostandbright@gmail.com",
+      "phone": "670878485",
+      "department": "BFI",
+      "departmentAbbreviation": "Banking and Finance"
+    },{
+      "id": 3,
+      "Name": "Romeo Billy",
+      "email": "romeobilly@gmail.com",
+      "phone": "670878485",
+      "department": "HRM",
+      "departmentAbbreviation": "Human Resource Management"
+    }
+  ]
+}

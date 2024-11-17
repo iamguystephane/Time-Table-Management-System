@@ -1,0 +1,30 @@
+{
+  "teacherAvailability": [
+    {
+      "id": "1",
+      "names": "Guy Stephane",
+      "email": "gstephane138@gmail.com",
+      "phone": "678978675",
+      "semester": 3,
+      "course": "Advanced Project Planning",
+      "level": "Level Two",
+      "department": "PM",
+      "day": "Friday",
+      "time": "10:15 - 12:15",
+      "departmentAbbreviation": "Project Management"
+    },
+    {
+      "id": "2",
+      "names": "janna FAHmy",
+      "email": "Janna.Fahmy@uncp.edu",
+      "phone": "678678654",
+      "semester": 3,
+      "course": "Common and Civil Law",
+      "level": "Level Two",
+      "department": "BFI",
+      "day": "Friday",
+      "time": "13:00 - 15:00",
+      "departmentAbbreviation": "Banking and Finance"
+    }
+  ]
+}
