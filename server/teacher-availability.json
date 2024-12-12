@@ -25,7 +25,9 @@
       "day": "Monday",
       "time": "8:00 - 10:00",
       "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "Guy Stephane"
+      "backupTeacherNames": "Romeo Billy",
+      "backupTeacherEmail": "romeo@gmail.com",
+      "backupTeacherPhone": "678967687"
     },
     {
       "id": "3",
@@ -36,25 +38,9 @@
       "course": "Warehouse Management",
       "level": "Level Two",
       "department": "LTM",
-      "day": "Thursday",
-      "time": "10:15 - 12:15",
-      "departmentAbbreviation": "Logistics and Transport Management"
-    },
-    {
-      "id": "4",
-      "names": "Guy Stephane",
-      "email": "gstephane138@gmail.com",
-      "phone": "678964687",
-      "semester": 1,
-      "course": "Linear Algebra",
-      "level": "Level One",
-      "department": "SWE",
       "day": "Monday",
       "time": "8:00 - 10:00",
-      "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "sdfs",
-      "backupTeacherEmail": "sdfsf@gmail.com",
-      "backupTeacherPhone": "678678678"
+      "departmentAbbreviation": "Logistics and Transport Management"
     },
     {
       "id": "5",
