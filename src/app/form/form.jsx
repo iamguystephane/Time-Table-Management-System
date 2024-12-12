@@ -8,6 +8,8 @@ import "../styles/form.css";
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../global states/form-context";
 import sendData from "../../../lib/sendData";
+import getTeacherAvailability from "../../../lib/getTeacherAvailability";
+import EditData from "../../../lib/edit-lecturer-data";
 
 const Form = () => {
   const { formData, setFormData } = useContext(formContext);
@@ -16,11 +18,37 @@ const Form = () => {
   const [error, setError] = useState({});
   const [fetchedData, setFetchedData] = useState([]);
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
+  let updatedFormData;
   //function to add data to json server
   const transferData = async () => {
-    const data = await sendData(formData);
-    setFetchedData(data);
+    try {
+      await sendData(formData);
+    } catch (err) {
+      alert("error sending data to the database");
+    }
   };
+  const updateTeacher = async () => {
+    try {
+      await EditData(updatedFormData);
+    } catch (err) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        const result = await getTeacherAvailability();
+        if (result.error) {
+          console.log(result.error);
+        } else {
+          setFetchedData(result);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAvailability();
+  }, []);
   // function to set the semester based on the level.
   const handleSemester = (level) => {
     let newSemester;
@@ -125,7 +153,36 @@ const Form = () => {
     }
     setError(errorMsg);
     if (Object.keys(errorMsg).length === 0) {
-      transferData();
+      console.log(fetchedData);
+      //checking if a lecturer has already taken the course on a certain period and time and day.
+      const match = fetchedData.find((teacher) => {
+        return (
+          teacher.department === formData.department &&
+          teacher.course === formData.course &&
+          teacher.day === formData.day &&
+          teacher.time === formData.time &&
+          teacher.level === formData.level &&
+          teacher.names != formData.names
+        );
+      });
+      if (match) {
+        updatedFormData = {
+          ...match,
+          backupTeacherNames: formData.names,
+          backupTeacherEmail: formData.email,
+          backupTeacherPhone: formData.phone,
+        };
+        setFormData(updatedFormData);
+
+        try {
+          updateTeacher();
+          alert("You have been assigned as a backup teacher");
+        } catch (err) {
+          console.log(`error updating data, please try again! ${err}`);
+        }
+      } else {
+        transferData();
+      }
       alert("Data has been submitted");
       setFormData({
         names: "",

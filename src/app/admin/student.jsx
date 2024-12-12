@@ -5,11 +5,18 @@ import style from "./styles/admin.module.css";
 import { useState, useEffect } from "react";
 import getStudentData from "../../../lib/getStudentData";
 import Loading from "@/loading/loading";
-import AdminPage from "./page";
+import { FaEdit } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import TimeTables from "../timetables/page";
 
-const MainPage = () => {
+const MainPage = ({
+  setTeacherInfo,
+  checkTeacherClick,
+  checkDeleteTeacher,
+  setRecordToDelete,
+}) => {
   const [dropDown, setDropDown] = useState(false);
-  const [studentData, setStudentData] = useState([]);
+  const [teacherAvailability, setTeacherAvailability] = useState([]);
   const [errMsg, setErrMsg] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,31 +27,46 @@ const MainPage = () => {
       if (result.error) {
         setErrMsg(result.error);
       } else {
-        setStudentData(result);
+        setTeacherAvailability(result);
       }
       setIsLoading(false);
     };
     retrieveData();
   }, []);
 
+  // function to edit teacher record
+  const handleEditTeacher = (teacherIndex) => {
+    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
+    setTeacherInfo(teacher);
+    checkTeacherClick(true);
+  };
+
+  // function to filter teachers by department and name
   const filter = (searchData, arrayData) => {
     const result = searchData
       ? arrayData.filter(
           (data) =>
-            data.Name.toLowerCase().includes(searchData.toLowerCase()) ||
-            data.department.toLowerCase().includes(searchData.toLowerCase()) ||
+            data.Name?.toLowerCase().includes(searchData.toLowerCase()) ||
+            data.department?.toLowerCase().includes(searchData.toLowerCase()) ||
             data.departmentAbbreviation
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(searchData.toLowerCase())
         )
       : arrayData;
 
     return result;
   };
-  const filteredData = filter(search, studentData);
+  const filteredData = filter(search, teacherAvailability);
   const handleRefresh = () => {
     window.location.reload();
   };
+  // function to delete a teacher
+  const confirmDelete = (teacherIndex) => {
+    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
+    checkDeleteTeacher(true);
+    setRecordToDelete(teacher);
+  };
+  let ID;
   return (
     <>
       <main className={style.main}>
@@ -53,16 +75,16 @@ const MainPage = () => {
             dropDown={dropDown}
             setDropDown={setDropDown}
             setSearch={setSearch}
-            show="View students"
+            show="Show students"
             hide="Hide students"
           />
         </nav>
+
         {!dropDown ? (
           <div className={style.displayStudents}>
             {isLoading ? (
               <div className={style.loading}>
-                {" "}
-                <Loading />{" "}
+                <Loading />
               </div>
             ) : errMsg.length > 0 ? (
               <div className={style.fetchError}>
@@ -72,8 +94,7 @@ const MainPage = () => {
                   className="btn btn-primary"
                   onClick={handleRefresh}
                 >
-                  {" "}
-                  refresh{" "}
+                  Refresh
                 </button>
               </div>
             ) : filteredData.length > 0 ? (
@@ -85,6 +106,8 @@ const MainPage = () => {
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Department</th>
+                    <th scope='col'>Level</th>
+                    <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,21 +118,35 @@ const MainPage = () => {
                       <td>{data.email}</td>
                       <td>{data.phone}</td>
                       <td>{data.departmentAbbreviation}</td>
+                      <td>{data.level}</td>
+                      <td style={{ gap: "25px" }}>
+                        <FaEdit
+                          size={28}
+                          className={style.pencilIcon}
+                          onClick={() => handleEditTeacher(data.id)}
+                        />
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        <FaTrash
+                          size={28}
+                          className={style.trashIcon}
+                          onClick={() => confirmDelete(data.id)}
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            ) : search ? (
+              <div className={style.fetchError}>
+                No search results found for {search}
+              </div>
             ) : (
-              search && (
-                <div className={style.fetchError}>
-                  No search results found for {search}
-                </div>
-              )
+              <div className={style.noContent}>No teacher is registered</div>
             )}
           </div>
         ) : (
           <div className={style.noContent}>
-            Click view students to see all students registered
+            <TimeTables />
           </div>
         )}
       </main>

@@ -8,9 +8,11 @@ const NavBar = ({ dropDown, setDropDown, setSearch, show, hide }) => {
   const handleOnChange = (e) => {
     const { value } = e.target;
     setSearchedData(value);
+    console.log(value);
   };
   const Search = () => {
     setSearch(searchedData);
+    console.log(searchedData);
   };
   return (
     <div className={style.nav}>

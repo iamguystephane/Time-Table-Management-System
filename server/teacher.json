@@ -4,6 +4,7 @@
       "id": 1,
       "Name": "Yuven Carlson",
       "email": "crestlancing@gmail.com",
+      "password": "crestlancing@2024",
       "phone": "672280977",
       "department": "Software Engineering"
     },
@@ -11,6 +12,7 @@
       "id": 2,
       "Name": "Abanji Dieudonne",
       "email": "abanji@gmail.com",
+      "password": "abanji@2024",
       "phone": "670878485",
       "department": "Software Engineering"
     },
@@ -18,6 +20,7 @@
       "id": 3,
       "Name": "Che Kingsley",
       "email": "cheking@gmail.com",
+      "password": "cheking@2024",
       "phone": "670878485",
       "department": "Software Engineering"
     }

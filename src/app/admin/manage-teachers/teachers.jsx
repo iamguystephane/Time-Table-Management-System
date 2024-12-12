@@ -5,8 +5,9 @@ import style from "../styles/admin.module.css";
 import { useState, useEffect } from "react";
 import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
 import Loading from "@/loading/loading";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
+import TimeTables from "@/app/timetables/page";
 
 const Teachers = ({
   setTeacherInfo,
@@ -35,9 +36,9 @@ const Teachers = ({
 
   // function to edit teacher record
   const handleEditTeacher = (teacherIndex) => {
-    setTeacherInfo(teacherAvailability[teacherIndex]);
+    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
+    setTeacherInfo(teacher);
     checkTeacherClick(true);
-    console.log(teacherAvailability[teacherIndex]);
   };
 
   // function to filter teachers by department and name
@@ -45,10 +46,10 @@ const Teachers = ({
     const result = searchData
       ? arrayData.filter(
           (data) =>
-            data.names.toLowerCase().includes(searchData.toLowerCase()) ||
-            data.department.toLowerCase().includes(searchData.toLowerCase()) ||
+            data.names?.toLowerCase().includes(searchData.toLowerCase()) ||
+            data.department?.toLowerCase().includes(searchData.toLowerCase()) ||
             data.departmentAbbreviation
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(searchData.toLowerCase())
         )
       : arrayData;
@@ -60,9 +61,11 @@ const Teachers = ({
     window.location.reload();
   };
   // function to delete a teacher
-  const confirmDelete = (index) => {
+  const confirmDelete = (teacherIndex) => {
+    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
     checkDeleteTeacher(true);
-    setRecordToDelete(teacherAvailability[index]);
+    setRecordToDelete(teacher);
+    console.log(teacher);
   };
   return (
     <>
@@ -103,6 +106,7 @@ const Teachers = ({
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Department</th>
+                    <th scope="col">Course</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
@@ -114,17 +118,18 @@ const Teachers = ({
                       <td>{data.email}</td>
                       <td>{data.phone}</td>
                       <td>{data.departmentAbbreviation}</td>
+                      <td>{data.course}</td>
                       <td style={{ gap: "25px" }}>
-                        <FaPencilAlt
+                        <FaEdit
                           size={28}
                           className={style.pencilIcon}
-                          onClick={() => handleEditTeacher(index)}
+                          onClick={() => handleEditTeacher(data.id)}
                         />
                         &nbsp; &nbsp; &nbsp; &nbsp;
                         <FaTrash
                           size={28}
                           className={style.trashIcon}
-                          onClick={() => confirmDelete(index)}
+                          onClick={() => confirmDelete(data.id)}
                         />
                       </td>
                     </tr>
@@ -141,7 +146,7 @@ const Teachers = ({
           </div>
         ) : (
           <div className={style.noContent}>
-            Click view teachers to see all teachers registered
+            <TimeTables />
           </div>
         )}
       </main>

@@ -32,4 +32,21 @@ const departmentDeg = [
   "HRM",
 ];
 
-export {departmentDeg, departmentsL1L2}
+const combinedDepartments = [
+  "Choose Department",
+  "BFI",
+  "MKT",
+  "ACY",
+  "BF",
+  "MGT",
+  "MKT",
+  "INS",
+  "LTM",
+  "PM",
+  "HWM",
+  "SWE",
+  "EDU",
+  "HRM",
+  "CNSM",
+];
+export { departmentDeg, departmentsL1L2, combinedDepartments };

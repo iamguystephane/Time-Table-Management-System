@@ -1,7 +1,7 @@
 "use client";
 
 import style from "./styles/confirm-delete.module.css";
-import deleteData from "../../../../lib/deleteData";
+import deleteStudent from "../../../../lib/delete-student";
 
 const DeleteConfirmation = ({
   checkDeleteTeacher,
@@ -10,8 +10,8 @@ const DeleteConfirmation = ({
 }) => {
   const confirmDelete = async () => {
     try {
-      await deleteData(recordToDelete);
-      console.log(`Successfully deleted ${recordToDelete.names}`);
+      await deleteStudent(recordToDelete);
+      console.log(`Successfully deleted ${recordToDelete.Name}`);
       setDeleteConfirmation(true);
     } catch (err) {
       console.log(`Error deleting teacher ${err}`);
@@ -24,7 +24,7 @@ const DeleteConfirmation = ({
 
   return (
     <div className={style.container}>
-      <h3> Are you sure you want to remove {recordToDelete.names}?" </h3>
+      <h3> Are you sure you want to remove {recordToDelete.Name}?" </h3>
       <div className={style.btns}>
         <button
           type="button"

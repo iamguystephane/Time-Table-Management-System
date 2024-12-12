@@ -4,9 +4,9 @@ import SideBar from "./sidebar";
 import { useState, useEffect } from "react";
 import style from "../styles/page.module.css";
 import Teachers from "./teachers";
-import Form from "../form-update";
-import DeleteConfirmation from "./confirm-delete";
-import DeleteConfirmationMessage from "@/global states/delete-confirmation-message";
+import Form from "../form-update-lecturer";
+import ConfirmLecturerDelete from "./confirm-delete-lecturer";
+import DeleteConfirmationMessage from "@/global states/delete-confirmation-message-student";
 import UpdateConfirmationMessage from "@/global states/update-confirmation-message";
 const ManageTeachers = () => {
   const [closeSideBar, setCloseSideBar] = useState(false);
@@ -47,7 +47,7 @@ const ManageTeachers = () => {
           onClick={() => setCheckDeleteTeacher(false)}
         >
           <div onClick={(e) => e.stopPropagation()} className={style.deleteDiv}>
-            <DeleteConfirmation
+            <ConfirmLecturerDelete
               checkDeleteTeacher={setCheckDeleteTeacher}
               dataToDelete={teacherInfo}
               recordToDelete={recordToDelete}

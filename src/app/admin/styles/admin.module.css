@@ -22,6 +22,10 @@
   color: #555;
   font-size: 1.2rem; 
 }
+.noContent {
+  height: 85vh;
+  width: 100%;
+}
 .fetchError {
   flex-direction: column;
   gap: 10px;

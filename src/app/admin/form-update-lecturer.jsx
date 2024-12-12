@@ -7,7 +7,8 @@ import { time, degTime } from "../scripts/time";
 import "./manage-teachers/styles/form.css";
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../global states/form-context";
-import EditData from "../../../lib/editData";
+import EditData from "../../../lib/edit-lecturer-data";
+import getTeacherAvailability from "../../../lib/getTeacherAvailability";
 
 const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
   const { formData, setFormData } = useContext(formContext);
@@ -15,12 +16,16 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
+  const [fetchedData, setFetchedData] = useState([]);
+  let updatedFormData;
   //function to edit teacher record
   const EditTeacher = async () => {
     try {
-      await EditData(formData);
+      await EditData(updatedFormData);
       console.log("successfully updated ");
-      updateConfirmation(true);
+      if (Object.keys(errorMsg).length === 0) {
+        updateConfirmation(true);
+      }
     } catch (err) {
       console.log("error submitting the data " + err);
     }
@@ -29,6 +34,36 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
       window.location.reload();
     }, 3000);
   };
+  const editWithDefaultFormData = async () => {
+    try {
+      await EditData(formData);
+      console.log("successfully updated ");
+      if (Object.keys(errorMsg).length === 0) {
+        updateConfirmation(true);
+      }
+    } catch (err) {
+      console.log("error submitting the data " + err);
+    }
+    setCheckTeacherInfo(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getTeacherAvailability();
+        if (response.error) {
+          console.log(response.error);
+        } else {
+          setFetchedData(response);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
   // function to set the semester based on the level.
   const handleSemester = (level) => {
     let newSemester;
@@ -70,10 +105,16 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      departmentAbbreviation: departmentAbbr,
       [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
     }));
   };
+  // using useEffect to ensure that whenever I update the form, the departmentAbbreviation updates synchronously with it
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      departmentAbbreviation: departmentAbbr,
+    }));
+  }, [departmentAbbr]);
 
   //modifying the formData with the data coming from teacherInfo.
   useEffect(() => {
@@ -94,10 +135,10 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
           departmentAbbr || prevData.departmentAbbreviation,
       }));
     }
-  }, []);
+  }, [teacherInfo]);
+  let errorMsg = {};
   const handleOnsubmit = (e) => {
     e.preventDefault();
-    const errorMsg = {};
     console.log(error);
     if (!formData.names.trim()) {
       errorMsg.names = "Name is required";
@@ -148,19 +189,43 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
     }
     setError(errorMsg);
     if (Object.keys(errorMsg).length === 0) {
-      EditTeacher();
-      console.log(formData);
-      setFormData({
-        names: "",
-        email: "",
-        phone: "",
-        semester: "",
-        course: "",
-        level: "",
-        department: "",
-        day: "",
-        time: "",
+      const match = fetchedData.find((teacher) => {
+        return (
+          teacher.department === formData.department &&
+          teacher.course === formData.course &&
+          teacher.day === formData.day &&
+          teacher.time === formData.time &&
+          teacher.level === formData.level &&
+          teacher.names != formData.names
+        );
       });
+      if (match) {
+        updatedFormData = {
+          ...match,
+          backupTeacherNames: formData.names,
+          backupTeacherEmail: formData.email,
+          backupTeacherPhone: formData.phone,
+        };
+        EditTeacher();
+        editWithDefaultFormData();
+        alert(
+          `Record updated. You are now the backup teacher for ${match.course}`
+        );
+      } else {
+        editWithDefaultFormData();
+        alert(`Updated successfully`);
+        setFormData({
+          names: "",
+          email: "",
+          phone: "",
+          semester: "",
+          course: "",
+          level: "",
+          department: "",
+          day: "",
+          time: "",
+        });
+      }
     }
   };
   return (
