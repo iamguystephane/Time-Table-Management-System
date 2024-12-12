@@ -63,6 +63,9 @@ const semesters = ({ params }) => {
     };
     fetchAvailability();
   }, []);
+  const convertToNumber = (data) => {
+    
+  }
   return (
     <>
       <div className={styles.container}>
