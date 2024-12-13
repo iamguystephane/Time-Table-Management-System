@@ -1,20 +1,32 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Form from "./form";
 import ConfirmPeriod from "./confirmation-modal";
 
-export const metadata = {
-  title: "Form",
-  description: "Teacher's form",
-};
+// export const metadata = {
+//   title: "Form",
+//   description: "Teacher's form",
+// };
 
 const FormComponent = () => {
+  const [displayModal, setDisplayModal] = useState(null);
+  const [dataFromForm, setDataFromForm] = useState({
+    updateFunction: null,
+    updatedFormData: {},
+  });
   return (
     <>
       <div style={styles.container}>
-        <Form />
-        <div style={styles.confirm}>
-          <ConfirmPeriod />
-        </div>
+        <Form setDisplayModal={setDisplayModal} data={setDataFromForm} />
+        {displayModal && (
+          <div style={styles.confirm}>
+            <ConfirmPeriod
+              dataFromForm={dataFromForm}
+              setDisplayModal={setDisplayModal}
+            />
+          </div>
+        )}
       </div>
     </>
   );

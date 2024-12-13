@@ -10,15 +10,17 @@ import { formContext } from "../../global states/form-context";
 import sendData from "../../../lib/sendData";
 import getTeacherAvailability from "../../../lib/getTeacherAvailability";
 import EditData from "../../../lib/edit-lecturer-data";
+import { Router } from "next/navigation";
 
-const Form = () => {
+const Form = ({ setDisplayModal, data }) => {
   const { formData, setFormData } = useContext(formContext);
   const [semester, setSemester] = useState("select level to apply");
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
   const [fetchedData, setFetchedData] = useState([]);
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
-  let updatedFormData;
+  const router = Router();
+  let updatedFormData = {};
   //function to add data to json server
   const transferData = async () => {
     try {
@@ -164,39 +166,55 @@ const Form = () => {
           teacher.names != formData.names
         );
       });
+      // checking if a particular course has already been selected for a specific department and semester.
+      const courseMatch = fetchedData.find((teacher) => {
+        return (
+          teacher.department === formData.department &&
+          teacher.level === formData.level &&
+          teacher.course === formData.course
+        );
+      });
       if (match) {
-        if(match.course === formData.coure) {
-
+        // if that period is found, then...
+        if (match.course === formData.course) {
+          // check if the course has already been selected
           updatedFormData = {
-            ...match,
+            ...match, // if it has been selected, update the formData so and add the lecturer as backup
             backupTeacherNames: formData.names,
             backupTeacherEmail: formData.email,
             backupTeacherPhone: formData.phone,
           };
           setFormData(updatedFormData);
-          try {
-            updateTeacher();
-            alert("You have been assigned as a backup teacher");
-          } catch (err) {
-            console.log(`error updating data, please try again! ${err}`);
-          }
+          setDisplayModal(true); //display confirmation modal
+          data({
+            updateFunction: updateTeacher,
+            updatedFormData, //setter that sets the update function and the entire form object that has been matched and updated.
+          });
+        } else {
+          errorMsg.error = "Sorry, this period has already been taken"; // display error message
         }
-
+      } else if (courseMatch) {
+        //if course has already been selected, block the ability of the user to take that course again!
+        errorMsg.error = "This course has already been selected"; // set error message.
       } else {
+        // if no match was found and if the course was not selected already, send the teacher's data to the database.
         transferData();
+        alert("Data has been submitted");
+        setFormData({
+          names: "",
+          email: "",
+          phone: "",
+          semester: "",
+          course: "",
+          level: "",
+          department: "",
+          day: "",
+          time: "",
+        });
+        setTimeout(() => {
+          router.push("/"); // route to a specific location after the data has been transfered after 2s.
+        }, 2000);
       }
-      alert("Data has been submitted");
-      setFormData({
-        names: "",
-        email: "",
-        phone: "",
-        semester: "",
-        course: "",
-        level: "",
-        department: "",
-        day: "",
-        time: "",
-      });
     }
   };
   return (
@@ -370,6 +388,7 @@ const Form = () => {
               </Link>
             </button>
           </div>
+          {error.error && <p style={{ color: "red" }}> {error.error} </p>}
         </form>
       </div>
     </>

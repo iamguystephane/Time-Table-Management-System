@@ -1,15 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { formContext } from "@/global states/form-context";
+import { useRouter } from "next/navigation";
 
-export default function ConfirmPeriod() {
-  const [noBtnHover, setNoBtnHover] = useState(false); //state for Hover effects
+export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
+  //importing my form state setter from context
+  const { setFormData } = useContext(formContext);
+  //state for Hover effects
+  const [noBtnHover, setNoBtnHover] = useState(false);
   const [yesBtnHover, setYesBtnHover] = useState(false);
+  const router = useRouter();
+
   // additional styles
   const styles = {
     container: {
-      width: "25%",
-      height: "45vh",
+      width: "35%",
+      height: "50vh",
     },
     noBtn: {
       background: noBtnHover && "#881337",
@@ -20,6 +27,44 @@ export default function ConfirmPeriod() {
       transition: "all 360ms ease-in-out",
     },
   };
+
+  //destructuring the data coming from the form so that I can use it here.
+  const { updateFunction, updatedFormData } = dataFromForm;
+
+  //functions for handling yes click.
+  const yesClick = () => {
+    updateFunction();
+    alert("You have been assigned as a backup teacher");
+    setTimeout(() => {
+      setDisplayModal(false);
+      router.push("/timetables");
+    }, 2000);
+    setFormData({
+      names: "",
+      email: "",
+      phone: "",
+      semester: "",
+      course: "",
+      level: "",
+      department: "",
+      day: "",
+      time: "",
+    });
+  };
+  const noClick = () => {
+    setDisplayModal(false);
+    setFormData({
+      names: "",
+      email: "",
+      phone: "",
+      semester: "",
+      course: "",
+      level: "",
+      department: "",
+      day: "",
+      time: "",
+    });
+  };
   return (
     <>
       <div
@@ -27,8 +72,10 @@ export default function ConfirmPeriod() {
         style={styles.container}
       >
         <h4 className="my-5">
-          Oops, this period has already been selected. Do you want to be a
-          backup teacher for the course... at this period?
+          Oops, this period and course has already been selected by another
+          lecturer. Would you like to be a backup teacher for {updatedFormData?.course}? if
+          not, you can return back and try to select another period, but not the
+          same course.
         </h4>
         <div className="flex gap-10 items-center justify-center w-full">
           <button
@@ -37,6 +84,7 @@ export default function ConfirmPeriod() {
             style={styles.yesBtn}
             onMouseEnter={() => setYesBtnHover(true)}
             onMouseLeave={() => setYesBtnHover(false)}
+            onClick={yesClick}
           >
             Yes
           </button>
@@ -46,6 +94,7 @@ export default function ConfirmPeriod() {
             style={styles.noBtn}
             onMouseEnter={() => setNoBtnHover(true)}
             onMouseLeave={() => setNoBtnHover(false)}
+            onClick={noClick}
           >
             No
           </button>

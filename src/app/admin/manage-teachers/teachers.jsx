@@ -119,7 +119,7 @@ const Teachers = ({
                       <td>{data.phone}</td>
                       <td>{data.departmentAbbreviation}</td>
                       <td>{data.course}</td>
-                      <td style={{ gap: "25px" }}>
+                      <td style={{display: 'flex'}}>
                         <FaEdit
                           size={28}
                           className={style.pencilIcon}

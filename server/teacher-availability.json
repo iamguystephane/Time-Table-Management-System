@@ -25,22 +25,9 @@
       "day": "Monday",
       "time": "8:00 - 10:00",
       "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "Romeo Billy",
-      "backupTeacherEmail": "romeo@gmail.com",
-      "backupTeacherPhone": "678967687"
-    },
-    {
-      "id": "3",
-      "names": "Guy Stephane",
-      "email": "guystephane@gmail.com",
-      "phone": "672280977",
-      "semester": 3,
-      "course": "Warehouse Management",
-      "level": "Level Two",
-      "department": "LTM",
-      "day": "Monday",
-      "time": "8:00 - 10:00",
-      "departmentAbbreviation": "Logistics and Transport Management"
+      "backupTeacherNames": "asdfad",
+      "backupTeacherEmail": "asdf@gmail.com",
+      "backupTeacherPhone": "678678686"
     },
     {
       "id": "5",
@@ -95,19 +82,6 @@
       "time": "10:15 - 12:15",
       "departmentAbbreviation": "Software Engineering",
       "backupTeacherNames": "Dieudonne Abanji"
-    },
-    {
-      "id": "9",
-      "names": "Guy Stephane",
-      "email": "guystephane@gmail.com",
-      "phone": "672280977",
-      "semester": 1,
-      "course": "English",
-      "level": "Level One",
-      "department": "SWE",
-      "day": "Wednesday",
-      "time": "8:00 - 10:00",
-      "departmentAbbreviation": "Software Engineering"
     }
   ]
 }
