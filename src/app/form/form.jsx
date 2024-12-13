@@ -158,7 +158,6 @@ const Form = () => {
       const match = fetchedData.find((teacher) => {
         return (
           teacher.department === formData.department &&
-          teacher.course === formData.course &&
           teacher.day === formData.day &&
           teacher.time === formData.time &&
           teacher.level === formData.level &&
@@ -166,20 +165,23 @@ const Form = () => {
         );
       });
       if (match) {
-        updatedFormData = {
-          ...match,
-          backupTeacherNames: formData.names,
-          backupTeacherEmail: formData.email,
-          backupTeacherPhone: formData.phone,
-        };
-        setFormData(updatedFormData);
+        if(match.course === formData.coure) {
 
-        try {
-          updateTeacher();
-          alert("You have been assigned as a backup teacher");
-        } catch (err) {
-          console.log(`error updating data, please try again! ${err}`);
+          updatedFormData = {
+            ...match,
+            backupTeacherNames: formData.names,
+            backupTeacherEmail: formData.email,
+            backupTeacherPhone: formData.phone,
+          };
+          setFormData(updatedFormData);
+          try {
+            updateTeacher();
+            alert("You have been assigned as a backup teacher");
+          } catch (err) {
+            console.log(`error updating data, please try again! ${err}`);
+          }
         }
+
       } else {
         transferData();
       }
