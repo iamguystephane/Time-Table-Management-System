@@ -10,7 +10,7 @@ import { formContext } from "../../global states/form-context";
 import sendData from "../../../lib/sendData";
 import getTeacherAvailability from "../../../lib/getTeacherAvailability";
 import EditData from "../../../lib/edit-lecturer-data";
-import { Router } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Form = ({ setDisplayModal, data }) => {
   const { formData, setFormData } = useContext(formContext);
@@ -19,7 +19,7 @@ const Form = ({ setDisplayModal, data }) => {
   const [error, setError] = useState({});
   const [fetchedData, setFetchedData] = useState([]);
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
-  const router = Router();
+  const router = useRouter();
   let updatedFormData = {};
   //function to add data to json server
   const transferData = async () => {

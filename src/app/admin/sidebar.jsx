@@ -53,8 +53,6 @@ const SideBar = ({ toggleSideBar, closeSideBar }) => {
         <div className={closeSideBar ? style.profileCollapse : style.profile}>
           <Image
             src={Profile}
-            width={30}
-            height={30}
             alt="profile image"
             className={`${style.image} ${
               closeSideBar ? style.collapsedImage : ""
