@@ -67,6 +67,18 @@ const semesters = ({ params }) => {
     ) {
       router.push("/404");
     }
+    if (
+      "level-one".includes(levelID) &&
+      ["semester-three", "semester-four"].includes(semester)
+    ) {
+      router.push("/404");
+    }
+    if (
+      "level-two".includes(levelID) &&
+      ["semester-one", "semester-two"].includes(semester)
+    ) {
+      router.push("/404");
+    }
   }, [semester, departmentsID]);
 
   //convert each semester from the dynamic route from words to number.
