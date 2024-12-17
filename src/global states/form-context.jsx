@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { createContext, useState } from "react";
 
@@ -16,8 +16,9 @@ const FormProvider = ({ children }) => {
     day: "",
     time: "",
   });
+  const [match, setMatch] = useState({});
   return (
-    <formContext.Provider value={{ formData, setFormData }}>
+    <formContext.Provider value={{ formData, setFormData, setMatch, match }}>
       {children}
     </formContext.Provider>
   );

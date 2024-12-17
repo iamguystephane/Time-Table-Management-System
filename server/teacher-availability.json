@@ -11,7 +11,10 @@
       "department": "SWE",
       "day": "Thursday",
       "time": "16:00 - 17:30",
-      "departmentAbbreviation": "Software Engineering"
+      "departmentAbbreviation": "Software Engineering",
+      "backupTeacherNames": "gdsfgsdf",
+      "backupTeacherEmail": "sdfsf@gmail.com",
+      "backupTeacherPhone": "678678678"
     },
     {
       "id": "2",
@@ -54,20 +57,26 @@
       "department": "SWE",
       "day": "Friday",
       "time": "10:15 - 12:15",
-      "departmentAbbreviation": "Software Engineering"
+      "departmentAbbreviation": "Software Engineering",
+      "backupTeacherNames": "Romeo Billy",
+      "backupTeacherEmail": "romeobilly@gmail.com",
+      "backupTeacherPhone": "678986464"
     },
     {
       "id": "7",
-      "names": "Essim Daniel",
-      "email": "essimdaniel@gmail.com",
-      "phone": "679878454",
-      "semester": 3,
-      "course": "Network Practical",
-      "level": "Level Two",
-      "department": "SWE",
-      "day": "Friday",
-      "time": "13:00 - 15:00",
-      "departmentAbbreviation": "Software Engineering"
+      "names": "Guy Stephane",
+      "email": "stephaneguy@gmail.com",
+      "phone": "678678645",
+      "semester": 1,
+      "course": "Cross-Border Banking I",
+      "level": "Level One",
+      "department": "BFI",
+      "day": "Monday",
+      "time": "8:00 - 10:00",
+      "departmentAbbreviation": "Banking and Finance",
+      "backupTeacherNames": "asdf",
+      "backupTeacherEmail": "sdf@gmail.com",
+      "backupTeacherPhone": "676876876"
     },
     {
       "id": "8",

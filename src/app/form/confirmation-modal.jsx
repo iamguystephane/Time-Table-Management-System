@@ -3,15 +3,14 @@
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "@/global states/form-context";
 import { useRouter } from "next/navigation";
-import getTeacherAvailability from "../../../lib/getTeacherAvailability";
 
 export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
-  //importing my form state setter from context
-  const { setFormData } = useContext(formContext);
+  //importing my form state setter and matched lecturer from context
+  const { setFormData, match } = useContext(formContext);
   //state for Hover effects
   const [noBtnHover, setNoBtnHover] = useState(false);
   const [yesBtnHover, setYesBtnHover] = useState(false);
-  const [fetchedData, setFetchedData] = useState([]);
+
   const router = useRouter();
 
   // additional styles
@@ -33,43 +32,16 @@ export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   //destructuring the data coming from the form so that I can use it here.
   const { updateFunction, updatedFormData } = dataFromForm;
 
-  // fetching already existing data from the database...
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTeacherAvailability();
-        if (response.error) {
-          console.log(response.error);
-        } else {
-          setFetchedData(response);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
-
-  //finding out if there already exist a backup teacher for a course
-  const [match, setMatch] = useState({});
-  useEffect(() => {
-    const found = fetchedData.find((teacher) => {
-      return teacher.backupTeacherNames === updatedFormData.backupTeacherNames;
-    });
-    setMatch(found);
-  }, [updatedFormData]);
-
-  useEffect(() => {
-    console.log("Match updated:", match);
+    console.log(match);
   }, [match]);
   // functions for handling yes and no click.
   const yesClick = () => {
-    if (!match) {
+    if (!match.backupTeacherNames) {
       updateFunction();
       alert("You have been assigned as a backup teacher");
       setTimeout(() => {
         setDisplayModal(false);
-        router.push("/timetables");
       }, 2000);
       setFormData({
         names: "",
@@ -84,7 +56,9 @@ export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
       });
     } else {
       alert("A backup teacher has already been selected for this course!");
-      router.push("/form");
+      setTimeout(() => {
+        setDisplayModal(false);
+      }, 2000);
     }
   };
   const noClick = () => {

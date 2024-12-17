@@ -128,6 +128,9 @@ const semesters = ({ params }) => {
               <td>
                 <p>8:00 - 10:00</p>
                 <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
                   {" "}
                   <MdCases size={20} /> &nbsp; &nbsp;{" "}
                   {availabilities
@@ -143,12 +146,9 @@ const semesters = ({ params }) => {
                       <span key={teacher.id}> {teacher.course}</span>
                     ))}
                 </p>
-                <p>
-                  <i> {departmentsID.toUpperCase()}</i>
-                </p>
-                <p className="lecturer-info">
+                <p className="lecturer-info flex items-center">
                   <MdPerson size={30} />
-                  (M):{" "}
+                  (M){" "}
                   {availabilities
                     .filter(
                       (teacher) =>
@@ -162,9 +162,9 @@ const semesters = ({ params }) => {
                       <span key={teacher.id}> {teacher.names}</span>
                     ))}{" "}
                 </p>
-                <p>
+                <p className="flex items-center">
                   <MdPerson size={30} />
-                  (B):{" "}
+                  (B){" "}
                   {availabilities
                     .filter(
                       (teacher) =>
@@ -175,7 +175,812 @@ const semesters = ({ params }) => {
                         teacher.semester === number
                     )
                     .map((teacher) => (
-                      <span key={teacher.id}> {teacher.backupTeacherNames}</span>
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>8:00 - 10:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>8:00 - 10:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>8:00 - 10:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>8:00 - 10:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "8:00 - 10:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>10:15 - 12:15</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>10:15 - 12:15</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>10:15 - 12:15</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>10:15 - 12:15</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>10:15 - 12:15</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "10:15 - 12:15" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>13:00 - 15:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Monday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>13:00 - 15:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Tuesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>13:00 - 15:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Wednesday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>13:00 - 15:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Thursday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
+                    ))}
+                </p>
+              </td>
+              <td>
+                <p>13:00 - 15:00</p>
+                <p>
+                  <i> {departmentsID.toUpperCase()}</i>
+                </p>
+                <p className="flex items-center">
+                  {" "}
+                  <MdCases size={20} /> &nbsp; &nbsp;{" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.course}</span>
+                    ))}
+                </p>
+                <p className="lecturer-info flex items-center">
+                  <MdPerson size={30} />
+                  (M){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}> {teacher.names}</span>
+                    ))}{" "}
+                </p>
+                <p className="flex items-center">
+                  <MdPerson size={30} />
+                  (B){" "}
+                  {availabilities
+                    .filter(
+                      (teacher) =>
+                        teacher.department === departmentsID.toUpperCase() &&
+                        teacher.time === "13:00 - 15:00" &&
+                        teacher.day === "Friday" &&
+                        teacher.level === level &&
+                        teacher.semester === number
+                    )
+                    .map((teacher) => (
+                      <span key={teacher.id}>
+                        {" "}
+                        {teacher.backupTeacherNames}
+                      </span>
                     ))}
                 </p>
               </td>

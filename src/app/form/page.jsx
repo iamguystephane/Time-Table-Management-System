@@ -13,7 +13,7 @@ const FormComponent = () => {
   const [displayModal, setDisplayModal] = useState(null);
   const [dataFromForm, setDataFromForm] = useState({
     updateFunction: null,
-    updatedFormData: {},
+    updatedFormData: {}
   });
   return (
     <>

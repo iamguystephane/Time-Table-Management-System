@@ -13,7 +13,7 @@ import EditData from "../../../lib/edit-lecturer-data";
 import { useRouter } from "next/navigation";
 
 const Form = ({ setDisplayModal, data }) => {
-  const { formData, setFormData } = useContext(formContext);
+  const { formData, setFormData, setMatch } = useContext(formContext);
   const [semester, setSemester] = useState("select level to apply");
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
@@ -162,8 +162,7 @@ const Form = ({ setDisplayModal, data }) => {
           teacher.department === formData.department &&
           teacher.day === formData.day &&
           teacher.time === formData.time &&
-          teacher.level === formData.level &&
-          teacher.names != formData.names
+          teacher.level === formData.level
         );
       });
       // checking if a particular course has already been selected for a specific department and semester.
@@ -190,6 +189,7 @@ const Form = ({ setDisplayModal, data }) => {
             updateFunction: updateTeacher,
             updatedFormData, //setter that sets the update function and the entire form object that has been matched and updated.
           });
+          setMatch(match);
         } else {
           errorMsg.error = "Sorry, this period has already been taken"; // display error message
         }
