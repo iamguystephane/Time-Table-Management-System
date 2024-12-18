@@ -6,16 +6,8 @@ import { MdCases } from "react-icons/md";
 import styles from "./page.module.css";
 import getTeacherAvailability from "../../../../../../lib/getTeacherAvailability";
 import { MdDownload } from "react-icons/md";
-import {
-  Document,
-  Packer,
-  Table,
-  TableRow,
-  TableCell,
-  Paragraph,
-  Textrun,
-  TextRun,
-} from "docx";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const semesters = ({ params }) => {
   const { departmentsID, semester, levelID } = React.use(params);
@@ -128,55 +120,41 @@ const semesters = ({ params }) => {
     convertLevel(levelID);
   }, [levelID]);
 
-  //download the time table
-  function downloadTable() {
-    //getting the table element...
-    const tableElement = document.getElementById("time-table");
-    const rows = Array.from(tableElement.rows);
+  //download the time table as PDF
+  const downloadTable = async () => {
+    const timetableElement = document.getElementById("time-table");
 
-    //creating table rows for docx
-    const docRows = rows.map((row) => {
-      const cells = Array.from(row.cells);
-      return new TableRow({
-        children: cells.map((cell) => {
-          return new TableCell({
-            children: [
-              new Paragraph({
-                children: [new TextRun(cell.textContent || "")],
-              }),
-            ],
-          });
-        }),
+    if (!timetableElement) {
+      alert("Timetable not found!");
+      return;
+    }
+
+    try {
+      // Use html2canvas to capture the timetable as an image
+      const canvas = await html2canvas(timetableElement, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true, // Allow cross-origin if external images are used
       });
-    });
 
-    //create the word document with the table
-    const doc = new Document({
-      sections: [
-        {
-          children: [
-            new Paragraph({
-              childred: [new TextRun("Exported HTML Table")],
-              heading: "Heading1",
-            }),
-            new Table({
-              rows: docRows,
-            }),
-          ],
-        },
-      ],
-    });
+      // Convert the canvas to an image
+      const imgData = canvas.toDataURL("image/png");
 
-    //generating the .docx file and trigger download
-    Packer.toBlob(doc).then((blob) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `time-table for ${departmentsID} ${semester}`;
-      link.click();
-      URL.revokeObjectURL(url);
-    });
-  }
+      // Create a new PDF document
+      const pdf = new jsPDF("landscape", "mm", "a4"); // Landscape mode for wide tables
+
+      // Calculate width and height of the image for the PDF page
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      // Add the image to the PDF
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+      // Save the PDF
+      pdf.save(`timetable-${departmentsID}-${semester}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
   return (
     <>
       <button
