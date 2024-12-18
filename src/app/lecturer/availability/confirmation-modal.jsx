@@ -2,7 +2,6 @@
 
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "@/global states/form-context";
-import { useRouter } from "next/navigation";
 
 export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   //importing my form state setter and matched lecturer from context
@@ -11,7 +10,6 @@ export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   const [noBtnHover, setNoBtnHover] = useState(false);
   const [yesBtnHover, setYesBtnHover] = useState(false);
 
-  const router = useRouter();
 
   // additional styles
   const styles = {

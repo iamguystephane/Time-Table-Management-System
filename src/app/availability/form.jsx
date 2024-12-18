@@ -1,15 +1,15 @@
 "use client";
-import { departmentDeg, departmentsL1L2 } from "../scripts/departments";
-import UpdateCourses from "../../../lib/update_courses";
-import days from "../scripts/days";
-import { time, degTime } from "../scripts/time";
+import { departmentDeg, departmentsL1L2 } from "../../scripts/departments";
+import UpdateCourses from "../../../../lib/update_courses";
+import days from "../../scripts/days";
+import { time, degTime } from "../../scripts/time";
 import Link from "next/link";
 import "../styles/form.css";
 import { useState, useContext, useEffect } from "react";
-import { formContext } from "../../global states/form-context";
-import sendData from "../../../lib/sendData";
-import getTeacherAvailability from "../../../lib/getTeacherAvailability";
-import EditData from "../../../lib/edit-lecturer-data";
+import { formContext } from "../../../global states/form-context";
+import sendData from "../../../../lib/sendData";
+import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
+import EditData from "../../../../lib/edit-lecturer-data";
 import { useRouter } from "next/navigation";
 
 const Form = ({ setDisplayModal, data }) => {
@@ -195,7 +195,7 @@ const Form = ({ setDisplayModal, data }) => {
         }
       } else if (courseMatch) {
         //if course has already been selected, block the ability of the user to take that course again!
-        errorMsg.error = "This course has already been selected"; // set error message.
+        errorMsg.error = "This course has already been taken"; // set error message.
       } else {
         // if no match was found and if the course was not selected already, send the teacher's data to the database.
         transferData();

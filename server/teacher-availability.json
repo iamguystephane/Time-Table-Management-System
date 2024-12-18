@@ -47,38 +47,6 @@
       "backupTeacherNames": "Hey there"
     },
     {
-      "id": "6",
-      "names": "heklo",
-      "email": "sdfsf@gmail.com",
-      "phone": "687954987",
-      "semester": 3,
-      "course": "Database and SQL",
-      "level": "Level Two",
-      "department": "SWE",
-      "day": "Friday",
-      "time": "10:15 - 12:15",
-      "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "Romeo Billy",
-      "backupTeacherEmail": "romeobilly@gmail.com",
-      "backupTeacherPhone": "678986464"
-    },
-    {
-      "id": "7",
-      "names": "Guy Stephane",
-      "email": "stephaneguy@gmail.com",
-      "phone": "678678645",
-      "semester": 1,
-      "course": "Cross-Border Banking I",
-      "level": "Level One",
-      "department": "BFI",
-      "day": "Monday",
-      "time": "8:00 - 10:00",
-      "departmentAbbreviation": "Banking and Finance",
-      "backupTeacherNames": "asdf",
-      "backupTeacherEmail": "sdf@gmail.com",
-      "backupTeacherPhone": "676876876"
-    },
-    {
       "id": "8",
       "names": "Forlemu Nkenglefack",
       "email": "forlemunkenglefack@uncp.edu",
@@ -87,10 +55,12 @@
       "course": "Computer Graphics",
       "level": "Level One",
       "department": "SWE",
-      "day": "Friday",
-      "time": "10:15 - 12:15",
+      "day": "Tuesday",
+      "time": "13:00 - 15:00",
       "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "Dieudonne Abanji"
+      "backupTeacherNames": "sdfs",
+      "backupTeacherEmail": "sdf@gmail.com",
+      "backupTeacherPhone": "678976876"
     }
   ]
 }
