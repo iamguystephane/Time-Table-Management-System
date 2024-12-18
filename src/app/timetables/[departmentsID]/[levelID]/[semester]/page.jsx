@@ -5,6 +5,17 @@ import { MdPerson } from "react-icons/md";
 import { MdCases } from "react-icons/md";
 import styles from "./page.module.css";
 import getTeacherAvailability from "../../../../../../lib/getTeacherAvailability";
+import { MdDownload } from "react-icons/md";
+import {
+  Document,
+  Packer,
+  Table,
+  TableRow,
+  TableCell,
+  Paragraph,
+  Textrun,
+  TextRun,
+} from "docx";
 
 const semesters = ({ params }) => {
   const { departmentsID, semester, levelID } = React.use(params);
@@ -116,16 +127,75 @@ const semesters = ({ params }) => {
   React.useState(() => {
     convertLevel(levelID);
   }, [levelID]);
+
+  //download the time table
+  function downloadTable() {
+    //getting the table element...
+    const tableElement = document.getElementById("time-table");
+    const rows = Array.from(tableElement.rows);
+
+    //creating table rows for docx
+    const docRows = rows.map((row) => {
+      const cells = Array.from(row.cells);
+      return new TableRow({
+        children: cells.map((cell) => {
+          return new TableCell({
+            children: [
+              new Paragraph({
+                children: [new TextRun(cell.textContent || "")],
+              }),
+            ],
+          });
+        }),
+      });
+    });
+
+    //create the word document with the table
+    const doc = new Document({
+      sections: [
+        {
+          children: [
+            new Paragraph({
+              childred: [new TextRun("Exported HTML Table")],
+              heading: "Heading1",
+            }),
+            new Table({
+              rows: docRows,
+            }),
+          ],
+        },
+      ],
+    });
+
+    //generating the .docx file and trigger download
+    Packer.toBlob(doc).then((blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `time-table for ${departmentsID} ${semester}`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  }
   return (
     <>
-      <div className={styles.container}>
+      <button
+        href="#time-table"
+        download={`${departmentsID}-${semester} time-table`}
+        className="bg-blue-500 px-3 py-1 mx-5 ml-24 mt-8 flex items-center gap-1 justify-center rounded text-white text-base"
+        onClick={downloadTable}
+      >
+        Download
+        <MdDownload size={20} />
+      </button>
+      <section className={styles.container}>
         <h1>
           {departmentsID.toUpperCase()} {splittedLevelValue[0].toUpperCase()}{" "}
           {splittedLevelValue[1].toUpperCase()}{" "}
           {splittedSemesterValue[0].toUpperCase()}{" "}
           {splittedSemesterValue[1].toUpperCase()} time table
         </h1>
-        <table className={styles.table}>
+        <table className={styles.table} id="time-table">
           <thead>
             <tr>
               <th>Monday</th>
@@ -999,7 +1069,7 @@ const semesters = ({ params }) => {
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </>
   );
 };
