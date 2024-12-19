@@ -1,0 +1,38 @@
+.navBar {
+  width: 100%;
+  height: 50px;
+  /* position: fixed; */
+  top: 0;
+}
+.availability,
+.logout {
+  cursor: pointer;
+  transition: all 360ms ease-in-out;
+  padding: 5px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+.availability:hover,
+.logout:hover {
+  color: white;
+}
+.availability::after,
+.logout::after {
+  content: "";
+  width: 0;
+  transition: all 360ms ease-in-out;
+  display: block;
+  height: 2px;
+  margin-top: 2px;
+  background: white;
+}
+.availability:hover::after,
+.logout:hover::after {
+  width: 100%;
+}
+.image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

@@ -1,4 +1,5 @@
 "use client";
+import LecturerNav from "../nav";
 import { departmentDeg, departmentsL1L2 } from "../../scripts/departments";
 import UpdateCourses from "../../../../lib/update_courses";
 import days from "../../scripts/days";
@@ -220,6 +221,7 @@ const Form = ({ setDisplayModal, data }) => {
   };
   return (
     <>
+      <LecturerNav />
       <div className="form-container">
         <div className="logo">
           <h5> All information is required. </h5>
@@ -383,12 +385,13 @@ const Form = ({ setDisplayModal, data }) => {
             <button type="submit" className="btn btn-success">
               Submit
             </button>
-            <button type="button" className="btn btn-danger">
-              <Link href="/" style={{ textDecoration: "none", color: "white" }}>
-                Go back{" "}
-              </Link>
-            </button>
+            <Link href="/" passHref>
+              <button type="button" className="btn btn-danger">
+                Go back
+              </button>
+            </Link>
           </div>
+
           {error.error && <p style={{ color: "red" }}> {error.error} </p>}
         </form>
       </div>
