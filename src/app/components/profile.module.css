@@ -1,0 +1,28 @@
+.container {
+  width: 300px;
+  z-index: 999;
+  position: absolute;
+  right: 10;
+  top: 55;
+  transition: all 360ms ease-in-out;
+  padding: 1em 1em;
+}
+.form {
+  width: 100%;
+}
+.image {
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+.edit {
+  top: 160;
+}
+.form input {
+  border: none;
+  padding: 0;
+  background: none;
+}
+.form input:focus {
+    background: none;
+}

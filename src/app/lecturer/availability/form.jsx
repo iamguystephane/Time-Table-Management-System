@@ -225,7 +225,6 @@ const Form = ({ setDisplayModal, data }) => {
       <div className="form-container">
         <div className="logo">
           <h5> All information is required. </h5>
-          {/* <img src={CITECIMG} width="350px" height="350px" /> */}
         </div>
         <form onSubmit={handleOnsubmit}>
           <h5>
@@ -385,7 +384,7 @@ const Form = ({ setDisplayModal, data }) => {
             <button type="submit" className="btn btn-success">
               Submit
             </button>
-            <Link href="/" passHref>
+            <Link href="/lecturer" passHref>
               <button type="button" className="btn btn-danger">
                 Go back
               </button>
