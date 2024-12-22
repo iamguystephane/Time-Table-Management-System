@@ -1,3 +1,4 @@
+
 import LecturerNav from "./nav";
 
 export default function LecturerPage() {

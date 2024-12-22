@@ -1,5 +1,6 @@
 "use client";
 import LecturerNav from "../nav";
+import Loading from "@/loading/loading";
 import { departmentDeg, departmentsL1L2 } from "../../scripts/departments";
 import UpdateCourses from "../../../../lib/update_courses";
 import days from "../../scripts/days";
@@ -19,6 +20,7 @@ const Form = ({ setDisplayModal, data }) => {
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
   const [fetchedData, setFetchedData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
   const router = useRouter();
   let updatedFormData = {};
@@ -219,6 +221,19 @@ const Form = ({ setDisplayModal, data }) => {
       console.log(match);
     }
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
+  if (!isLoading)
+    return (
+      <div
+        style={{ width: "100%", height: "100vh" }}
+        className="flex items-center justify-center"
+      >
+        <Loading />
+      </div>
+    );
   return (
     <>
       <LecturerNav />

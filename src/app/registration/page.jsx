@@ -1,8 +1,10 @@
 "use client";
 
 import { combinedDepartments } from "../scripts/departments";
-import { useState } from "react";
-import ErrorMessages from "../scripts/error-messages";
+import { useState, useEffect } from "react";
+import { errorMessages, passwordStrength } from "../scripts/auth";
+import Loading from "@/loading/loading";
+import { FaEye } from "react-icons/fa";
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -14,26 +16,78 @@ const Registration = () => {
     age: "",
     status: "",
     department: "",
+    password: "",
+    confirmPassword: "",
   });
+  const [displayPassword, setDisplayPassword] = useState(false);
+  const [displayConfirmPassword, setDisplayConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [passStrength, setPassStrength] = useState("");
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
+
+  useEffect(() => {
+    const getStrength = () => {
+      const strength = passwordStrength(formData.password);
+      setPassStrength(strength);
+    };
+    if (formData.password) getStrength();
+  }, [formData.password]);
+
   function handleOnChange(e) {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
+    }));
   }
+
   let errMsg = {};
   function handleOnSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    ErrorMessages(formData, errMsg);
+    errorMessages(formData, errMsg);
     if (Object.keys(errMsg).length === 0) {
       alert("submitted successfully");
       form.reset();
+      setFormData((prevData) => ({
+        ...prevData,
+        age: "",
+      }));
     }
     setErrors(errMsg);
   }
+  const [age, setAge] = useState("Select Date Of Birth first");
+  const calculateAge = (date) => {
+    const currentDate = new Date();
+    const birthDate = new Date(date);
+    let yourAge = currentDate.getFullYear() - birthDate.getFullYear();
+
+    if (
+      currentDate.getMonth() < birthDate.getMonth() ||
+      (currentDate.getMonth() === birthDate.getMonth() &&
+        currentDate.getDate() < birthDate.getDate())
+    ) {
+      yourAge += 1;
+    }
+    setAge(yourAge);
+  };
+  useEffect(() => {
+    calculateAge(formData.dob);
+  }, [formData.dob]);
+
+  if (!isLoading)
+    return (
+      <div
+        style={{ width: "100%", height: "100vh" }}
+        className="flex items-center justify-center"
+      >
+        <Loading />
+      </div>
+    );
   return (
     <>
       <div
@@ -55,7 +109,6 @@ const Registration = () => {
               type="text"
               className="form-control form-control-lg"
               name="names"
-              value={formData.names}
               onChange={handleOnChange}
             />
           </div>
@@ -80,7 +133,6 @@ const Registration = () => {
                 type="text"
                 className="form-control form-control-lg"
                 name="email"
-                value={formData.email}
                 onChange={handleOnChange}
               />
               {errors.email && (
@@ -124,7 +176,6 @@ const Registration = () => {
                 type="date"
                 className="form-control form-control-lg"
                 name="dob"
-                value={formData.dob}
                 onChange={handleOnChange}
               />
               {errors.dob && <p className="text-red-800 my-1">{errors.dob}</p>}
@@ -136,7 +187,7 @@ const Registration = () => {
                 type="text"
                 className="form-control form-control-lg"
                 name="age"
-                value={formData.age}
+                value={isNaN(age) ? 'Please select date of birth' : age}
                 onChange={handleOnChange}
               />
               {errors.age && <p className="text-red-800 my-1">{errors.age}</p>}
@@ -151,6 +202,7 @@ const Registration = () => {
               name="status"
               onChange={handleOnChange}
             >
+              <option> Select Status </option>
               <option> Lecturer </option>
               <option> Student </option>
             </select>
@@ -175,7 +227,63 @@ const Registration = () => {
           {errors.department && (
             <p className="text-red-800 my-1">{errors.department}</p>
           )}
-
+          <div className="position-relative">
+            <label>Password</label>
+            <input
+              type={displayPassword ? "text" : "password"}
+              className="form-control form-control-lg"
+              name="password"
+              onChange={handleOnChange}
+            />
+            <FaEye
+              size={20}
+              className={`position-absolute top-9 right-5 ${
+                displayPassword ? `text-gray-800` : `text-gray-300`
+              }`}
+              onClick={() => setDisplayPassword(!displayPassword)}
+            />
+          </div>
+          {passStrength && (
+            <div className="my-2">
+              <p>
+                Strength:{" "}
+                <span
+                  className={`${
+                    ["Poor", "Very weak", "Weak"].includes(passStrength)
+                      ? `text-red-500`
+                      : `text-green-500`
+                  }`}
+                >
+                  {passStrength}
+                </span>
+              </p>
+            </div>
+          )}
+          {errors.password && (
+            <p className="text-red-800 my-1">{errors.password}</p>
+          )}
+          <div className="position-relative">
+            <label>Confirm Password</label>
+            <input
+              type={displayConfirmPassword ? "text" : "password"}
+              className="form-control form-control-lg"
+              name="confirmPassword"
+              onChange={handleOnChange}
+            />
+            <FaEye
+              size={20}
+              className={`position-absolute top-9 right-5 ${
+                displayConfirmPassword ? `text-gray-800` : `text-gray-300`
+              }`}
+              onClick={() => setDisplayConfirmPassword(!displayConfirmPassword)}
+            />
+          </div>
+          {errors.confirmPassword && (
+            <p className="text-red-800 my-1">{errors.confirmPassword}</p>
+          )}
+          {errors.passwordError && (
+            <p className="text-red-800 my-1">{errors.passwordError}</p>
+          )}
           <button
             type="submit"
             className="w-full bg-green-800 text-white rounded-md p-2 hover:bg-green-600 transition-all duration-800 ease-in-out my-4"
