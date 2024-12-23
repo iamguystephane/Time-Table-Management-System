@@ -6,7 +6,7 @@ const hasNumber = /\d/;
 const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
 const errorMessages = (data, err) => {
-  if (!data.age.trim()) err.age = "Age is required.";
+  if (!data.age) err.age = "Age is required.";
   if (!data.department.trim()) err.department = "Department is required.";
   if (!data.phone.trim()) {
     err.phone = "Phone is required";

@@ -46,18 +46,54 @@ const Registration = () => {
   }
 
   let errMsg = {};
-  function handleOnSubmit(e) {
+  async function handleOnSubmit(e) {
     e.preventDefault();
     const form = e.target;
     errorMessages(formData, errMsg);
-    if (Object.keys(errMsg).length === 0) {
-      alert("submitted successfully");
-      form.reset();
-      setFormData((prevData) => ({
-        ...prevData,
-        age: "",
-      }));
+    try {
+      const res = await fetch("api/userExists", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const { user } = await res.json();
+      if (user) {
+        errMsg.userExists = "Email address already exists";
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          userExists: errMsg.userExists,
+        }));
+        return;
+      }
+    } catch (error) {
+      console.log(error);
     }
+    if (Object.keys(errMsg).length === 0) {
+      try {
+        const response = await fetch("api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert("submitted successfully");
+          form.reset();
+          setAge("");
+          setFormData((prevData) => ({
+            ...prevData,
+            age: "",
+          }));
+        } else console.log("user registration failed");
+      } catch (error) {
+        console.log("Error during registration", error);
+      }
+    }
+
     setErrors(errMsg);
   }
   const [age, setAge] = useState("Select Date Of Birth first");
@@ -73,6 +109,10 @@ const Registration = () => {
     ) {
       yourAge += 1;
     }
+    setFormData((prevData) => ({
+      ...prevData,
+      age: yourAge,
+    }));
     setAge(yourAge);
   };
   useEffect(() => {
@@ -187,7 +227,7 @@ const Registration = () => {
                 type="text"
                 className="form-control form-control-lg"
                 name="age"
-                value={isNaN(age) ? 'Please select date of birth' : age}
+                value={isNaN(age) ? "Please select date of birth" : age}
                 onChange={handleOnChange}
               />
               {errors.age && <p className="text-red-800 my-1">{errors.age}</p>}
@@ -259,6 +299,18 @@ const Registration = () => {
               </p>
             </div>
           )}
+          {["Poor", "Very weak", "Weak"].includes(passStrength) && (
+            <div className="my-2">
+              <p>
+                tips:{" "}
+                <span className="text-red-500">
+                  A good password should contain both lower and uppercase
+                  letters, a number, and a special symbol, and should be at
+                  least 8 characters long.
+                </span>
+              </p>
+            </div>
+          )}
           {errors.password && (
             <p className="text-red-800 my-1">{errors.password}</p>
           )}
@@ -283,6 +335,9 @@ const Registration = () => {
           )}
           {errors.passwordError && (
             <p className="text-red-800 my-1">{errors.passwordError}</p>
+          )}
+          {errors.userExists && (
+            <p className="text-red-800 my-1">{errors.userExists}</p>
           )}
           <button
             type="submit"
