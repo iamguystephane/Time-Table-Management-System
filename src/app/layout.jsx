@@ -3,7 +3,8 @@ import "./globals.css";
 import "../global states/form-context";
 import { FormProvider } from "../global states/form-context";
 import "./bootstrap-5.2.3-dist/css/bootstrap.css";
-import './JS/all'
+import "./JS/all";
+import { AuthProvider } from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +27,7 @@ export default function RootLayout({ children }) {
     <FormProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {children}
+          {<AuthProvider>{children}</AuthProvider>}
         </body>
       </html>
     </FormProvider>

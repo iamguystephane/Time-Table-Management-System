@@ -1,7 +1,18 @@
+'use client'
 
 import LecturerNav from "./nav";
+import { getSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function LecturerPage() {
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      console.log("Session:", session);
+    };
+
+    checkSession();
+  }, []);
   return (
     <>
       <div className='position-relative'>

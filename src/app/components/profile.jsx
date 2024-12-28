@@ -1,7 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./profile.module.css";
 import { MdEdit, MdClose } from "react-icons/md";
-import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 export default function Profile({ setModal }) {
   return (
@@ -22,7 +24,7 @@ export default function Profile({ setModal }) {
                 className={`position-absolute right-40 top-52 bg-white rounded-3xl p-2 text-black text-base w-10 h-10 cursor-pointer ${styles.edit}`}
               />
             </label>
-            <input type='file' id='file-input' style={{display: 'none'}} />
+            <input type="file" id="file-input" style={{ display: "none" }} />
             <MdClose
               size={20}
               className="text-white p-2 position-absolute right-0 top-0 bg-black rounded-3xl w-10 h-10 cursor-pointer"
@@ -62,12 +64,13 @@ export default function Profile({ setModal }) {
             </button>
           </div>
           <div className="mt-5">
-            <Link
-              href=""
+            <button
+              type="button"
+              onClick={() => signOut()}
               className="no-underline text-white bg-red-800 rounded-lg px-4 py-2 hover:bg-red-600 transition-all duration-300 ease-in-out"
             >
               Logout
-            </Link>
+            </button>
           </div>
         </form>
       </div>

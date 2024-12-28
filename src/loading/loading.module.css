@@ -5,7 +5,20 @@
   justify-content: center;
   gap: 10px;
 }
-
+.btnLoadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.btnLoading {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  animation: loading-animation 1.5s linear infinite;
+}
 .loading {
   width: 70px;
   height: 70px;

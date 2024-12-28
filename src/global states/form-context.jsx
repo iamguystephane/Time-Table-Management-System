@@ -16,9 +16,19 @@ const FormProvider = ({ children }) => {
     day: "",
     time: "",
   });
+  const [fetchedLogin, setFetchedLogin] = useState({});
   const [match, setMatch] = useState({});
   return (
-    <formContext.Provider value={{ formData, setFormData, setMatch, match }}>
+    <formContext.Provider
+      value={{
+        formData,
+        setFormData,
+        setMatch,
+        match,
+        fetchedLogin,
+        setFetchedLogin,
+      }}
+    >
       {children}
     </formContext.Provider>
   );

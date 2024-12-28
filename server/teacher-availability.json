@@ -34,17 +34,19 @@
     },
     {
       "id": "5",
-      "names": "janna FAHmy",
-      "email": "Janna.Fahmy@uncp.edu",
-      "phone": "678697546",
+      "names": "Forlemu Mc Brain",
+      "email": "mcbrain@gmail.com",
+      "phone": "677361928",
       "semester": 1,
-      "course": "Fundamentals of Algorithms",
+      "course": "Computer Architecture I",
       "level": "Level One",
       "department": "SWE",
-      "day": "Tuesday",
-      "time": "8:00 - 10:00",
+      "day": "Monday",
+      "time": "13:00 - 15:00",
       "departmentAbbreviation": "Software Engineering",
-      "backupTeacherNames": "Hey there"
+      "backupTeacherNames": "sdfsdf",
+      "backupTeacherEmail": "sdfsf@gmail.com",
+      "backupTeacherPhone": "678678678"
     },
     {
       "id": "8",
@@ -61,6 +63,32 @@
       "backupTeacherNames": "sdfs",
       "backupTeacherEmail": "sdf@gmail.com",
       "backupTeacherPhone": "678976876"
+    },
+    {
+      "id": "5",
+      "names": "Forlemu Mc Brain",
+      "email": "mcbrain@gmail.com",
+      "phone": "677361928",
+      "semester": 1,
+      "course": "Computer Architecture I",
+      "level": "Level One",
+      "department": "SWE",
+      "day": "Monday",
+      "time": "13:00 - 15:00",
+      "departmentAbbreviation": "Software Engineering"
+    },
+    {
+      "id": "6",
+      "names": "Guy Stephane",
+      "email": "gstephane138@gmail.com",
+      "phone": "678678686",
+      "semester": 1,
+      "course": "Computer Networks 1",
+      "level": "Level One",
+      "department": "SWE",
+      "day": "Monday",
+      "time": "8:00 - 10:00",
+      "departmentAbbreviation": "Software Engineering"
     }
   ]
 }
