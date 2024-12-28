@@ -4,10 +4,10 @@ import NavBar from "../../admin/nav";
 import style from "../styles/admin.module.css";
 import { useState, useEffect } from "react";
 import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
-import Loading from "@/loading/loading";
+import Loading from "../../../loading/loading";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import TimeTables from "@/app/timetables/page";
+import TimeTables from "../../timetables/page";
 
 const Teachers = ({
   setTeacherInfo,

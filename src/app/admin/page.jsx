@@ -6,8 +6,8 @@ import style from "./styles/page.module.css";
 import "../JS/all";
 import StudentForm from "./form-update-student";
 import { useState } from "react";
-import DeleteConfirmationMessage from "@/global states/delete-confirmation-message-student";
-import UpdateConfirmationMessage from "@/global states/update-confirmation-message";
+import DeleteConfirmationMessage from "../../global states/delete-confirmation-message-student";
+import UpdateConfirmationMessage from "../../global states/update-confirmation-message";
 import DeleteConfirmation from "./manage-teachers/confirm-delete-student";
 const AdminPage = () => {
   const [closeSideBar, setCloseSideBar] = useState(false);

@@ -4,12 +4,52 @@ import Image from "next/image";
 import styles from "./profile.module.css";
 import { MdEdit, MdClose } from "react-icons/md";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { errorMessages } from "../scripts/auth";
 
 export default function Profile({ setModal }) {
+  const [formData, setFormData] = useState({
+    names: "",
+    phone: "",
+    email: "",
+  });
+  const { data: user } = useSession();
+  const [error, setError] = useState({});
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
+    }));
+  };
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    const errorMsg = {};
+    errorMessages(formData, errorMsg);
+    if (Object.keys(errorMsg).length === 0) {
+      alert("submitted");
+    }
+    setError(errorMsg);
+  };
+  useEffect(() => {
+    console.log(user);
+    if (user) {
+      setFormData((prevData) => ({
+        ...prevData,
+        names: user.names || prevData.names,
+        phone: user.phone || prevData.phone,
+        email: user.email || prevData.email,
+      }));
+    }
+  }, []);
   return (
     <>
       <div className={`${styles.container} rounded-xl bg-white shadow-xl`}>
-        <form className={`${styles.form} flex-col items-center justify-center`}>
+        <form
+          className={`${styles.form} flex-col items-center justify-center`}
+          onSubmit={handleOnSubmit}
+        >
           <div className={`position-relative`}>
             <Image
               src="/profile.jpeg"
@@ -36,25 +76,36 @@ export default function Profile({ setModal }) {
             <input
               type="text"
               className="form-control form-control-lg"
-              value="Guy Stephane :)"
+              value={formData.names}
+              name="names"
+              onChange={handleOnChange}
             />
           </div>
+          {error.names && <p className="text-red-600 mt-2">{error.names}</p>}
           <div className={`mt-3`}>
-            <label> Contact </label>
+            <label> Phone </label>
             <input
               type="text"
               className="form-control form-control-lg"
-              value="672280977"
+              value={formData.phone}
+              name="phone"
+              onChange={handleOnChange}
             />
           </div>
+          {error.phone && <p className="text-red-600 mt-2">{error.phone}</p>}
+
           <div className={`mt-3`}>
             <label> Email </label>
             <input
               type="text"
               className="form-control form-control-lg"
-              value="gstephane138@gmail.com"
+              value={formData.email}
+              name="email"
+              onChange={handleOnChange}
             />
           </div>
+          {error.email && <p className="text-red-600 mt-2">{error.email}</p>}
+
           <div className="mt-3">
             <button
               type="submit"

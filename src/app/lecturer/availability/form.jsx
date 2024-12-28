@@ -1,6 +1,6 @@
 "use client";
 import LecturerNav from "../nav";
-import Loading from "@/loading/loading";
+import Loading from "../../../loading/loading"
 import { departmentDeg, departmentsL1L2 } from "../../scripts/departments";
 import UpdateCourses from "../../../../lib/update_courses";
 import days from "../../scripts/days";
@@ -13,8 +13,10 @@ import sendData from "../../../../lib/sendData";
 import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
 import EditData from "../../../../lib/edit-lecturer-data";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Form = ({ setDisplayModal, data }) => {
+  const { data: user } = useSession();
   const { formData, setFormData, setMatch } = useContext(formContext);
   const [semester, setSemester] = useState("select level to apply");
   const [coursesArray, setCoursesArray] = useState([]);
@@ -247,7 +249,6 @@ const Form = ({ setDisplayModal, data }) => {
           </h5>
           <div className="name form-group">
             <label>
-              {" "}
               Full Names <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -255,13 +256,12 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="names"
-              value={formData.names}
+              value={user?.names || formData.names}
             />
           </div>
           {error.names && <p style={{ color: "red" }}> {error.names} </p>}
           <div className="email form-group">
             <label>
-              {" "}
               Email <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -269,13 +269,12 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="email"
-              value={formData.email}
+              value={user?.email || formData.email}
             />
           </div>
           {error.email && <p style={{ color: "red" }}> {error.email} </p>}
           <div className="phone form-group">
             <label>
-              {" "}
               Phone <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -283,7 +282,7 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="phone"
-              value={formData.phone}
+              value={user?.phone || formData.phone}
             />
           </div>
           {error.phone && <p style={{ color: "red" }}> {error.phone} </p>}

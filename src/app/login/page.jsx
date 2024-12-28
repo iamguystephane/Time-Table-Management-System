@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import style from "./login.module.css";
 import { useRouter } from "next/navigation";
-import BtnLoading from "@/loading/btn-loading";
+import BtnLoading from "../../loading/btn-loading";
 import { FaEye } from "react-icons/fa";
-import Loading from "@/loading/loading";
+import Loading from "../../loading/loading";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,14 +17,13 @@ const Login = () => {
   const [homePageLoading, setHomePageLoading] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
   const [loginSuccessful, setLoginSuccessful] = useState(false);
-  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState({});
-
+  const router = useRouter();
   const styles = {
     button: {
-      cursor: isLoading ? 'not-allowed' : 'pointer'
-    }
-  }
+      cursor: isLoading ? "not-allowed" : "pointer",
+    },
+  };
   useEffect(() => {
     setHomePageLoading(true);
   }, []);
@@ -58,22 +57,17 @@ const Login = () => {
           return;
         }
         setLoginSuccessful(true);
-        const userRes = await fetch("/api/auth/session");
-        console.log(userRes);
-        if (!userRes) {
-          console.log("Failed to get user information");
-          return;
-        }
-        const user = await userRes.json();
-        setTimeout(() => {
-          if (user.status === "Lecturer") {
+        const session = await getSession();
+        if (session && session.user) {
+          const userStatus = session.status;
+          if (userStatus === "Lecturer") {
             router.push("/lecturer");
-          } else if (user.status === "Student") {
-            router.push("/student");
+          } else if (userStatus === "admin") {
+            router.push("/admin");
           } else {
-            router.push("/lecturer");
+            router.push("/student");
           }
-        }, 1500);
+        }
       } catch (error) {
         console.log("error ", error);
         setErrorMsg({ loginError: "Something went wrong. Please try again." });

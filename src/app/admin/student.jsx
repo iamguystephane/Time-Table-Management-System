@@ -4,7 +4,7 @@ import NavBar from "./nav";
 import style from "./styles/admin.module.css";
 import { useState, useEffect } from "react";
 import getStudentData from "../../../lib/getStudentData";
-import Loading from "@/loading/loading";
+import Loading from "../../loading/loading";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import TimeTables from "../timetables/page";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useContext, useEffect } from "react";
-import { formContext } from "@/global states/form-context";
+import { formContext } from "../../../global states/form-context"
 
 export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   //importing my form state setter and matched lecturer from context

@@ -9,10 +9,9 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function LecturerNav() {
-  const { data: session } = useSession();
+  const { data: user } = useSession();
   const [profileModal, setProfileModal] = useState(false);
   const pathname = usePathname();
-
   return (
     <>
       <nav
@@ -48,7 +47,7 @@ export default function LecturerNav() {
               alt="profile picture"
               className={styles.image}
             />
-            <h6 className="text-black"> {session?.user?.name} </h6>
+            <h6 className="text-black"> {user?.names || "Guest"} </h6>
           </div>
         </div>
       </nav>
