@@ -2,6 +2,7 @@ import mongoose, { models, Schema } from "mongoose";
 
 const userSchema = new Schema(
   {
+    id: { type: String, required: true, unique: true },
     names: {
       type: String,
       required: true,
@@ -34,6 +35,9 @@ const userSchema = new Schema(
       type: String,
       maxlength: 1,
     },
+    department: { type: String, required: true },
+    departmentAbbreviation: { type: String, required: true },
+    level: {type: String}
   },
   {
     timestamps: true,

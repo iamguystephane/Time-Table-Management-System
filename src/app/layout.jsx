@@ -5,6 +5,7 @@ import { FormProvider } from "../global states/form-context";
 import "./bootstrap-5.2.3-dist/css/bootstrap.css";
 import "./JS/all";
 import { AuthProvider } from "./providers";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
     <FormProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <ToastContainer />
           {<AuthProvider>{children}</AuthProvider>}
         </body>
       </html>

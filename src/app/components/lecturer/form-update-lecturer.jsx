@@ -1,60 +1,62 @@
 "use client";
-import LecturerNav from "../nav";
-import Loading from "../../../loading/loading"
+
 import { departmentDeg, departmentsL1L2 } from "../../scripts/departments";
 import UpdateCourses from "../../../../lib/update_courses";
 import days from "../../scripts/days";
 import { time, degTime } from "../../scripts/time";
-import Link from "next/link";
-import "../../styles/form.css";
+import "../../styles/availability-form.css";
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../../global states/form-context";
-import sendData from "../../../../lib/sendData";
-import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
 import EditData from "../../../../lib/edit-lecturer-data";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
+import { toast } from "react-toastify";
+import Loading from "../../../loading/loading";
 
-const Form = ({ setDisplayModal, data }) => {
-  const { data: user } = useSession();
-  const { formData, setFormData, setMatch } = useContext(formContext);
+const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
+  const { formData, setFormData } = useContext(formContext);
   const [semester, setSemester] = useState("select level to apply");
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
-  const [fetchedData, setFetchedData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
-  const router = useRouter();
-  let updatedFormData = {};
-  //function to add data to json server
-  const transferData = async () => {
+  const [fetchedData, setFetchedData] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
+  //function to edit teacher record
+  const EditTeacher = async (data) => {
     try {
-      await sendData(formData);
+      setIsUpdating(true);
+      const res = await EditData(data);
+      if (Object.keys(errorMsg).length === 0) {
+        if (!res.ok) {
+          const error = await res.json();
+          toast.error(error.error);
+          return;
+        }
+        toast.success("Lecturer has been updated successfully");
+      }
     } catch (err) {
-      alert("error sending data to the database");
+      toast.error("Internal server error, please try again later");
+    } finally {
+      setIsUpdating(false);
     }
-  };
-  const updateTeacher = async () => {
-    try {
-      await EditData(updatedFormData);
-    } catch (err) {
-      console.log(error);
-    }
+    setCheckTeacherInfo(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
   useEffect(() => {
-    const fetchAvailability = async () => {
+    const fetchData = async () => {
       try {
-        const result = await getTeacherAvailability();
-        if (result.error) {
-          console.log(result.error);
+        const response = await getTeacherAvailability();
+        if (response.error) {
+          console.log(response.error);
         } else {
-          setFetchedData(result);
+          setFetchedData(response);
         }
       } catch (err) {
         console.log(err);
       }
     };
-    fetchAvailability();
+    fetchData();
   }, []);
   // function to set the semester based on the level.
   const handleSemester = (level) => {
@@ -89,7 +91,7 @@ const Form = ({ setDisplayModal, data }) => {
   // updating selectable courses based on the department and the semester.
   useEffect(() => {
     if (formData.department && semester) {
-      setCoursesArray(handleCourses()); //setting courses only since this function returns an array of the courses and the department full name
+      setCoursesArray(handleCourses());
     }
   }, [formData.department, semester]);
   //getting form input and saving in state object.
@@ -97,14 +99,48 @@ const Form = ({ setDisplayModal, data }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      departmentAbbreviation: departmentAbbr,
       [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
     }));
   };
+  // using useEffect to ensure that whenever I update the form, the departmentAbbreviation updates synchronously with it
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      departmentAbbreviation: departmentAbbr,
+    }));
+  }, [departmentAbbr]);
+
+  //modifying the formData with the data coming from teacherInfo.
+  useEffect(() => {
+    if (teacherInfo) {
+      setFormData((prevData) => ({
+        id: teacherInfo.id,
+        ...prevData,
+        names: teacherInfo.names || prevData.names,
+        email: teacherInfo.email || prevData.email,
+        phone: teacherInfo.phone || prevData.phone,
+        semester: teacherInfo.semester || prevData.semester,
+        course: teacherInfo.course || prevData.course,
+        level: teacherInfo.level || prevData.level,
+        department: teacherInfo.department || prevData.department,
+        day: teacherInfo.day || prevData.day,
+        time: teacherInfo.time || prevData.time,
+        departmentAbbreviation:
+          departmentAbbr || prevData.departmentAbbreviation,
+      }));
+    }
+  }, [teacherInfo]);
+  if (isUpdating) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        {" "}
+        <Loading message="updating lecturer" />{" "}
+      </div>
+    );
+  }
+  let errorMsg = {};
   const handleOnsubmit = (e) => {
     e.preventDefault();
-    const errorMsg = {};
-    console.log(formData);
     console.log(error);
     if (!formData.names.trim()) {
       errorMsg.names = "Name is required";
@@ -115,11 +151,6 @@ const Form = ({ setDisplayModal, data }) => {
       errorMsg.course = "Please choose a course";
     } else if (formData.course.trim() === "Please select a level") {
       errorMsg.course = "Please choose a course";
-    } else if (
-      formData.course.trim() === "Department doesn't exist for degree."
-    ) {
-      errorMsg.course =
-        "The departmen of Hardware Maintenance is not available for degree. Did you mean CNSM?";
     }
     if (!formData.email.trim()) {
       errorMsg.email = "Course required";
@@ -160,95 +191,38 @@ const Form = ({ setDisplayModal, data }) => {
     }
     setError(errorMsg);
     if (Object.keys(errorMsg).length === 0) {
-      console.log(fetchedData);
-      //checking if a lecturer has already taken the course on a certain period and time and day.
-      const match = fetchedData.find((teacher) => {
-        return (
-          teacher.department === formData.department &&
-          teacher.day === formData.day &&
-          teacher.time === formData.time &&
-          teacher.level === formData.level
-        );
+      const updatedFormData = fetchedData.find(
+        (teacher) =>
+          teacher.email.toLowerCase().trim() ===
+          formData.email.toLowerCase().trim()
+      );
+      const updateWithMatch = { ...updatedFormData, ...formData };
+      EditTeacher(updateWithMatch);
+      setFormData({
+        names: "",
+        email: "",
+        phone: "",
+        semester: "",
+        course: "",
+        level: "",
+        department: "",
+        day: "",
+        time: "",
       });
-      // checking if a particular course has already been selected for a specific department and semester.
-      const courseMatch = fetchedData.find((teacher) => {
-        return (
-          teacher.department === formData.department &&
-          teacher.level === formData.level &&
-          teacher.course === formData.course
-        );
-      });
-      if (match) {
-        // if that period is found, then...
-        if (match.course === formData.course) {
-          // check if the course has already been selected
-          updatedFormData = {
-            ...match, // if it has been selected, update the formData so and add the lecturer as backup
-            backupTeacherNames: formData.names,
-            backupTeacherEmail: formData.email,
-            backupTeacherPhone: formData.phone,
-          };
-          setFormData(updatedFormData);
-          setDisplayModal(true); //display confirmation modal
-          data({
-            updateFunction: updateTeacher,
-            updatedFormData, //setter that sets the update function and the entire form object that has been matched and updated.
-          });
-          setMatch(match);
-        } else {
-          errorMsg.error = "Sorry, this period has already been taken"; // display error message
-        }
-      } else if (courseMatch) {
-        //if course has already been selected, block the ability of the user to take that course again!
-        errorMsg.error = "This course has already been taken"; // set error message.
-      } else {
-        // if no match was found and if the course was not selected already, send the teacher's data to the database.
-        transferData();
-        alert("Data has been submitted");
-        setFormData({
-          names: "",
-          email: "",
-          phone: "",
-          semester: "",
-          course: "",
-          level: "",
-          department: "",
-          day: "",
-          time: "",
-        });
-        setTimeout(() => {
-          router.push("/"); // route to a specific location after the data has been transfered after 2s.
-        }, 2000);
-      }
-      console.log(match);
     }
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-  }, []);
-  if (!isLoading)
-    return (
-      <div
-        style={{ width: "100%", height: "100vh" }}
-        className="flex items-center justify-center"
-      >
-        <Loading />
-      </div>
-    );
   return (
     <>
-      <LecturerNav />
       <div className="form-container">
         <div className="logo">
           <h5> All information is required. </h5>
+          <h1> Edit Teacher Information </h1>
         </div>
         <form onSubmit={handleOnsubmit}>
-          <h5>
-            <i> Personal Information </i>
-          </h5>
+          <h5> Teacher's Information </h5>
           <div className="name form-group">
             <label>
+              {" "}
               Full Names <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -256,12 +230,13 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="names"
-              value={user?.names || formData.names}
+              value={formData.names}
             />
           </div>
           {error.names && <p style={{ color: "red" }}> {error.names} </p>}
           <div className="email form-group">
             <label>
+              {" "}
               Email <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -269,12 +244,13 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="email"
-              value={user?.email || formData.email}
+              value={formData.email}
             />
           </div>
           {error.email && <p style={{ color: "red" }}> {error.email} </p>}
           <div className="phone form-group">
             <label>
+              {" "}
               Phone <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
@@ -282,15 +258,13 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="phone"
-              value={user?.phone || formData.phone}
+              value={formData.phone}
             />
           </div>
           {error.phone && <p style={{ color: "red" }}> {error.phone} </p>}
           <br />
           <hr />
-          <h5>
-            <i>Course Information </i>
-          </h5>
+          <h5>Course Information </h5>
           <div className="level form-group">
             <label>
               {" "}
@@ -350,7 +324,7 @@ const Form = ({ setDisplayModal, data }) => {
               className="form-control form-control-lg"
               onChange={handleOnChange}
               name="course"
-              // value={formData.course}
+              value={formData.course}
             >
               {coursesArray.map((cours, index) => {
                 return <option key={index}>{cours}</option>;
@@ -395,17 +369,10 @@ const Form = ({ setDisplayModal, data }) => {
           </div>
           {error.time && <p style={{ color: "red" }}> {error.time} </p>}
           <div className="btns">
-            <button type="submit" className="btn btn-success">
-              Submit
+            <button type="submit" className="btn btn-primary">
+              Update
             </button>
-            <Link href="/lecturer" passHref>
-              <button type="button" className="btn btn-danger">
-                Go back
-              </button>
-            </Link>
           </div>
-
-          {error.error && <p style={{ color: "red" }}> {error.error} </p>}
         </form>
       </div>
     </>

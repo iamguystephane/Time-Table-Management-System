@@ -1,18 +1,23 @@
 "use client";
 
-import { combinedDepartments } from "../scripts/departments";
-import "./manage-teachers/styles/form.css";
+import { combinedDepartments } from "../../scripts/departments";
+import "../../styles/availability-form.css";
 import { useState, useEffect } from "react";
-import EditStudent from "../../../lib/edit-student-data";
-import departmentAbbrFunc from "../../../lib/check-department";
+import updateStudent from "../../../../lib/update-student";
+import departmentAbbrFunc from "../../../../lib/check-department";
+import { toast } from "react-toastify";
+import Loading from "../../../loading/loading";
 
 const StudentForm = ({
   teacherInfo,
   updateConfirmation,
   setCheckTeacherInfo,
 }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [fetchedError, setFetchedError] = useState(null);
+  const [fetchedStudents, setFetchedStudents] = useState([]);
   const [formData, setFormData] = useState({
-    Name: "",
+    names: "",
     department: "",
     level: "",
     phone: "",
@@ -21,18 +26,27 @@ const StudentForm = ({
   });
   const [error, setError] = useState({});
   //function to edit teacher record
-  const EditStudentData = async () => {
+  const EditStudentData = async (data) => {
     try {
-      await EditStudent(formData);
-      console.log("successfully updated ");
+      setIsUpdating(true);
+      const method = "PUT";
+      const res = await updateStudent(data, method);
+      if (res.error) {
+        toast.data(res.error);
+        return;
+      }
+      toast.success(res.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       updateConfirmation(true);
     } catch (err) {
-      console.log("error submitting the data " + err);
+      console.log("error submitting the data: ", err.error);
+      toast.error("Internal server error. Please try again later");
+    } finally {
+      setIsUpdating(false);
     }
     setCheckTeacherInfo(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
   };
   //getting form input and saving in state object.
   const handleOnChange = (e) => {
@@ -59,7 +73,7 @@ const StudentForm = ({
       setFormData((prevData) => ({
         id: teacherInfo.id,
         ...prevData,
-        Name: teacherInfo.Name || prevData.Name,
+        names: teacherInfo.names || prevData.names,
         email: teacherInfo.email || prevData.email,
         phone: teacherInfo.phone || prevData.phone,
         level: teacherInfo.level || prevData.level,
@@ -68,12 +82,28 @@ const StudentForm = ({
       }));
     }
   }, [teacherInfo]);
-
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await fetch("/api/fetch-students");
+        if (!res.ok) {
+          const error = await res.json();
+          setFetchedError(error.message);
+          return;
+        }
+        const users = await res.json();
+        setFetchedStudents(users);
+      } catch (error) {
+        setFetchedError("Internal server error: ", error.message);
+      }
+    };
+    fetchStudents();
+  }, [setCheckTeacherInfo]);
   const handleOnsubmit = (e) => {
     e.preventDefault();
     const errorMsg = {};
     console.log(error);
-    if (!formData.Name.trim()) {
+    if (!formData.names.trim()) {
       errorMsg.names = "Name is required";
     }
     if (!formData.email.trim()) {
@@ -100,10 +130,14 @@ const StudentForm = ({
     }
     setError(errorMsg);
     if (Object.keys(errorMsg).length === 0) {
-      EditStudentData();
-      console.log(formData);
+      const match = fetchedStudents.find(
+        (stud) => stud.email.trim() === formData.email.trim()
+      );
+      const updatedStudentData = { ...match, ...formData };
+      EditStudentData(updatedStudentData);
+      console.log(updatedStudentData);
       setFormData({
-        Name: "",
+        names: "",
         email: "",
         phone: "",
         semester: "",
@@ -112,6 +146,13 @@ const StudentForm = ({
       });
     }
   };
+  if (isUpdating) {
+    return (
+      <div className="w-full h-full items-center justify-center">
+        <Loading message="Updating student" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="form-container">
@@ -123,15 +164,14 @@ const StudentForm = ({
           <h5> Student personal information </h5>
           <div className="name form-group">
             <label>
-              {" "}
               Full Names <span style={{ color: "red" }}> * </span>{" "}
             </label>
             <input
               type="text"
               className="form-control form-control-lg"
               onChange={handleOnChange}
-              name="Name"
-              value={formData.Name}
+              name="names"
+              value={formData.names}
             />
           </div>
           {error.names && <p style={{ color: "red" }}> {error.names} </p>}

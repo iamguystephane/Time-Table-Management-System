@@ -1,6 +1,6 @@
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
-import style from "./styles/nav.module.css";
+import style from "../../styles/nav.module.css";
 import { useState } from "react";
 
 const NavBar = ({ dropDown, setDropDown, setSearch, show, hide }) => {

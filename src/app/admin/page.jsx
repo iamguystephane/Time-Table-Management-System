@@ -1,14 +1,12 @@
 "use client";
 
-import SideBar from "./sidebar";
-import MainPage from "./student";
-import style from "./styles/page.module.css";
+import SideBar from "../components/student/sidebar";
+import MainPage from '../components/student/student'
+import style from "../styles/page.module.css";
 import "../JS/all";
-import StudentForm from "./form-update-student";
+import StudentForm from "../components/student/form-update-student";
 import { useState } from "react";
-import DeleteConfirmationMessage from "../../global states/delete-confirmation-message-student";
-import UpdateConfirmationMessage from "../../global states/update-confirmation-message";
-import DeleteConfirmation from "./manage-teachers/confirm-delete-student";
+import DeleteConfirmation from "../components/student/confirm-delete-student";
 const AdminPage = () => {
   const [closeSideBar, setCloseSideBar] = useState(false);
   const [teacherInfo, setTeacherInfo] = useState({});
@@ -54,8 +52,6 @@ const AdminPage = () => {
           </div>
         )}
         <main className={closeSideBar ? style.mainClosed : style.mainOpen}>
-          {updateConfirmation && <UpdateConfirmationMessage />}
-          {deleteConfirmation && <DeleteConfirmationMessage />}
           <div>
             <MainPage
               setTeacherInfo={setTeacherInfo}

@@ -1,15 +1,24 @@
 "use client";
 
-import { combinedDepartments } from "../scripts/departments";
+import { combinedDepartments } from "../../scripts/departments";
 import { useState, useEffect } from "react";
-import { errorMessages, passwordStrength } from "../scripts/auth";
-import Loading from "@/loading/loading";
+import {
+  errorMessages,
+  passwordStrength,
+} from "../../scripts/registration-auth";
+import Loading from "../../../loading/loading";
 import { FaEye } from "react-icons/fa";
-
+import BtnLoading from "../../../loading/btn-loading";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import UpdateCourses from "../../../../lib/update_courses";
 
 const Registration = () => {
-  
+  function generateRandomID() {
+    return uuidv4();
+  }
   const [formData, setFormData] = useState({
+    id: generateRandomID(),
     names: "",
     phone: "",
     email: "",
@@ -18,14 +27,17 @@ const Registration = () => {
     age: "",
     status: "",
     department: "",
+    level: null,
     password: "",
     confirmPassword: "",
   });
+  const [departmentAbbreviation, setDepartmentAbbreviation] = useState("");
   const [displayPassword, setDisplayPassword] = useState(false);
   const [displayConfirmPassword, setDisplayConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [passStrength, setPassStrength] = useState("");
+  const [submitLoad, setSubmitLoad] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,11 +50,14 @@ const Registration = () => {
     };
     if (formData.password) getStrength();
   }, [formData.password]);
-
+  useEffect(() => {
+    UpdateCourses(formData.department, null, setDepartmentAbbreviation);
+  }, [formData.department]);
   function handleOnChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
+      departmentAbbreviation: departmentAbbreviation,
       [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
     }));
   }
@@ -52,7 +67,9 @@ const Registration = () => {
     e.preventDefault();
     const form = e.target;
     errorMessages(formData, errMsg);
+    console.log('Error messages: ', errMsg);
     try {
+      setSubmitLoad(true);
       const res = await fetch("/api/userExists", {
         method: "POST",
         headers: {
@@ -71,9 +88,13 @@ const Registration = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setSubmitLoad(false);
     }
     if (Object.keys(errMsg).length === 0) {
+      console.log("Error Messages: ", errMsg);
       try {
+        setSubmitLoad(true);
         const response = await fetch("/api/register", {
           method: "POST",
           headers: {
@@ -83,16 +104,23 @@ const Registration = () => {
         });
 
         if (response.ok) {
-          alert("submitted successfully");
+          const data = await response.json()
+          toast.success(data.message);
           form.reset();
           setAge("");
           setFormData((prevData) => ({
             ...prevData,
             age: "",
+            phone: ""
           }));
-        } else console.log("user registration failed");
+          return;
+        }
+        const error = await response.json();
+        toast.error(error.message);
       } catch (error) {
         console.log("Server error. Couldn't register user", error);
+      } finally {
+        setSubmitLoad(false);
       }
     }
 
@@ -127,7 +155,7 @@ const Registration = () => {
         style={{ width: "100%", height: "100vh" }}
         className="flex items-center justify-center"
       >
-        <Loading />
+        <Loading message="Loading" />
       </div>
     );
   return (
@@ -252,6 +280,24 @@ const Registration = () => {
           {errors.status && (
             <p className="text-red-800 my-1">{errors.status}</p>
           )}
+          {formData.status === "Student" && (
+            <div className="mt-2">
+              <label>Level</label>
+              <select
+                className="form-control form-control-lg"
+                name="level"
+                onChange={handleOnChange}
+              >
+                <option> Select Level </option>
+                <option> Level One </option>
+                <option> Level Two </option>
+                <option> Degree </option>
+              </select>
+            </div>
+          )}
+          {errors.level && (
+            <div className="text-red-800 my-1"> {errors.level}</div>
+          )}
 
           <div className="mt-2">
             <label>Department</label>
@@ -345,7 +391,7 @@ const Registration = () => {
             type="submit"
             className="w-full bg-green-800 text-white rounded-md p-2 hover:bg-green-600 transition-all duration-800 ease-in-out my-4"
           >
-            Submit
+            {!submitLoad ? "Submit" : <BtnLoading statement="submitting" />}
           </button>
         </form>
       </div>

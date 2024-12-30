@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { getSession, signIn } from "next-auth/react";
-import style from "./login.module.css";
+import style from "../styles/login.module.css";
 import { useRouter } from "next/navigation";
 import BtnLoading from "../../loading/btn-loading";
 import { FaEye } from "react-icons/fa";
 import Loading from "../../loading/loading";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -16,12 +17,11 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [homePageLoading, setHomePageLoading] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
-  const [loginSuccessful, setLoginSuccessful] = useState(false);
   const [errorMsg, setErrorMsg] = useState({});
   const router = useRouter();
   const styles = {
     button: {
-      cursor: isLoading ? "not-allowed" : "pointer",
+      cursor: isLoading ? "pointer" : "pointer",
     },
   };
   useEffect(() => {
@@ -56,18 +56,18 @@ const Login = () => {
           setErrorMsg({ loginError: res.error.slice(6) });
           return;
         }
-        setLoginSuccessful(true);
         const session = await getSession();
         if (session && session.user) {
           const userStatus = session.status;
           if (userStatus === "Lecturer") {
             router.push("/lecturer");
-          } else if (userStatus === "admin") {
+          } else if (userStatus === "Admin") {
             router.push("/admin");
           } else {
-            router.push("/student");
+            router.push("/student-dashboard");
           }
         }
+        toast.success('Logged in sucessfully', {theme: 'dark'});
       } catch (error) {
         console.log("error ", error);
         setErrorMsg({ loginError: "Something went wrong. Please try again." });
@@ -83,7 +83,7 @@ const Login = () => {
         className="items-center justify-center flex"
         style={{ width: "100%", height: "100vh" }}
       >
-        <Loading />
+        <Loading message='Loading'/>
       </div>
     );
   }
@@ -92,11 +92,6 @@ const Login = () => {
       <div className={style.container}>
         <form className={style.form} onSubmit={handleOnSubmit}>
           <h1 className={style.heading}> Log in </h1>
-          {loginSuccessful && (
-            <div className="w-full h-15 p-2 bg-green-500 text-white text-2xl text-center">
-              Login successful. Redirecting...
-            </div>
-          )}
           <div className={`form-group ${style.email}`}>
             <label htmlFor="exampleInputEmail">Email</label>
             <input
@@ -138,7 +133,7 @@ const Login = () => {
             className={`btn btn-success shadow-3xl ${style.submitBtn}`}
             style={styles.button}
           >
-            {isLoading ? <BtnLoading /> : "Login"}
+            {isLoading ? <BtnLoading statement="Logging in" /> : "Login"}
           </button>
         </form>
       </div>

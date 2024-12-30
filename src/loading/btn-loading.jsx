@@ -1,10 +1,10 @@
-import style from "./loading.module.css";
+import style from "../app/styles/loading.module.css";
 
-const BtnLoading = () => {
+const BtnLoading = ({ statement }) => {
   return (
     <div className={style.btnLoadingContainer}>
       <div className={style.btnLoading}> </div>
-       Logging in 
+      {statement}
     </div>
   );
 };

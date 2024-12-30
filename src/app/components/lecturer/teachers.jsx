@@ -1,15 +1,15 @@
 "use client";
 
-import NavBar from "./nav";
-import style from "./styles/admin.module.css";
+import NavBar from "../../components/global/nav";
+import style from "../../styles/admin.module.css";
 import { useState, useEffect } from "react";
-import getStudentData from "../../../lib/getStudentData";
-import Loading from "../../loading/loading";
+import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
+import Loading from "../../../loading/loading";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import TimeTables from "../timetables/page";
+import TimeTables from "../../timetables/page";
 
-const MainPage = ({
+const Teachers = ({
   setTeacherInfo,
   checkTeacherClick,
   checkDeleteTeacher,
@@ -23,7 +23,7 @@ const MainPage = ({
   useEffect(() => {
     const retrieveData = async () => {
       setIsLoading(true);
-      const result = await getStudentData();
+      const result = await getTeacherAvailability();
       if (result.error) {
         setErrMsg(result.error);
       } else {
@@ -46,7 +46,7 @@ const MainPage = ({
     const result = searchData
       ? arrayData.filter(
           (data) =>
-            data.Name?.toLowerCase().includes(searchData.toLowerCase()) ||
+            data.names?.toLowerCase().includes(searchData.toLowerCase()) ||
             data.department?.toLowerCase().includes(searchData.toLowerCase()) ||
             data.departmentAbbreviation
               ?.toLowerCase()
@@ -65,8 +65,8 @@ const MainPage = ({
     const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
     checkDeleteTeacher(true);
     setRecordToDelete(teacher);
+    console.log(teacher);
   };
-  let ID;
   return (
     <>
       <main className={style.main}>
@@ -75,8 +75,8 @@ const MainPage = ({
             dropDown={dropDown}
             setDropDown={setDropDown}
             setSearch={setSearch}
-            show="Show students"
-            hide="Hide students"
+            show="Show teachers"
+            hide="Hide teachers"
           />
         </nav>
 
@@ -84,7 +84,7 @@ const MainPage = ({
           <div className={style.displayStudents}>
             {isLoading ? (
               <div className={style.loading}>
-                <Loading />
+                <Loading message='Fetching data' />
               </div>
             ) : errMsg.length > 0 ? (
               <div className={style.fetchError}>
@@ -101,25 +101,23 @@ const MainPage = ({
               <table className={`table table-hover table-dark ${style.table}`}>
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Full Names</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Department</th>
-                    <th scope='col'>Level</th>
+                    <th scope="col">Course</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredData.map((data, index) => (
                     <tr key={index}>
-                      <th scope="row">{data.id}</th>
-                      <td>{data.Name}</td>
+                      <td>{data.names}</td>
                       <td>{data.email}</td>
                       <td>{data.phone}</td>
                       <td>{data.departmentAbbreviation}</td>
-                      <td>{data.level}</td>
-                      <td style={{ gap: "25px" }}>
+                      <td>{data.course}</td>
+                      <td style={{display: 'flex'}}>
                         <FaEdit
                           size={28}
                           className={style.pencilIcon}
@@ -154,4 +152,4 @@ const MainPage = ({
   );
 };
 
-export default MainPage;
+export default Teachers;

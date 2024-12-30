@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Form from "./form";
-import ConfirmPeriod from "./confirmation-modal";
+import Form from "../../components/lecturer/availability-form";
+import ConfirmPeriod from "../../components/global/confirmation-modal";
 
 // export const metadata = {
 //   title: "Form",
@@ -13,7 +13,7 @@ const FormComponent = () => {
   const [displayModal, setDisplayModal] = useState(null);
   const [dataFromForm, setDataFromForm] = useState({
     updateFunction: null,
-    updatedFormData: {}
+    updatedFormData: {},
   });
   return (
     <>

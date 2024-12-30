@@ -1,13 +1,12 @@
 "use client";
 
-import SideBar from "./sidebar";
+import SideBar from "../../components/lecturer/sidebar";
 import { useState, useEffect } from "react";
-import style from "../styles/page.module.css";
-import Teachers from "./teachers";
-import Form from "../form-update-lecturer";
-import ConfirmLecturerDelete from "./confirm-delete-lecturer";
-import DeleteConfirmationMessage from "../../../global states/delete-confirmation-message-student";
-import UpdateConfirmationMessage from "../../../global states/update-confirmation-message";
+import style from "../../styles/page.module.css";
+import Teachers from "../../components/lecturer/teachers";
+import Form from "../../components/lecturer/form-update-lecturer";
+import ConfirmLecturerDelete from "../../components/lecturer/confirm-delete-lecturer";
+import { toast } from "react-toastify";
 const ManageTeachers = () => {
   const [closeSideBar, setCloseSideBar] = useState(false);
   const [teacherInfo, setTeacherInfo] = useState({});
@@ -60,8 +59,10 @@ const ManageTeachers = () => {
         <SideBar toggleSideBar={setCloseSideBar} closeSideBar={closeSideBar} />
         <div className={style.page}>
           <main className={closeSideBar ? style.mainClosed : style.mainOpen}>
-            {updateConfirmation && <UpdateConfirmationMessage />}
-            {deleteConfirmation && <DeleteConfirmationMessage />}
+            {updateConfirmation &&
+              toast.success("Lecturer info updated successfully")}
+            {deleteConfirmation &&
+              toast.success("Lecturer info deleted successfully")}
 
             <Teachers
               setTeacherInfo={setTeacherInfo}

@@ -1,4 +1,4 @@
-import style from "./styles/page.module.css";
+import style from "../styles/page.module.css";
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";

@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./nav.module.css";
+import styles from "../../styles/lecturer-nav.module.css";
 import Image from "next/image";
-import Profile from "../components/profile";
+import Profile from "../global/profile";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -54,7 +54,7 @@ export default function LecturerNav() {
       {profileModal && (
         <div style={style.modalDiv} onClick={() => setProfileModal(false)}>
           <div onClick={(e) => e.stopPropagation()}>
-            <Profile setModal={setProfileModal} />
+            <Profile setModal={setProfileModal} displayModal={profileModal} />
           </div>
         </div>
       )}

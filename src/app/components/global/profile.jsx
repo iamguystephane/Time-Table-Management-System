@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import styles from "./profile.module.css";
+import styles from "../../styles/profile.module.css";
 import { MdEdit, MdClose } from "react-icons/md";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { errorMessages } from "../scripts/auth";
+import { toast } from "react-toastify";
 
-export default function Profile({ setModal }) {
+export default function Profile({ setModal, displayModal }) {
   const [formData, setFormData] = useState({
     names: "",
     phone: "",
@@ -16,6 +16,7 @@ export default function Profile({ setModal }) {
   });
   const { data: user } = useSession();
   const [error, setError] = useState({});
+  const [toggleChanges, setToggleChanges] = useState(false);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -23,12 +24,39 @@ export default function Profile({ setModal }) {
       [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,
     }));
   };
+  const hasChanged = () => {
+    return (
+      formData.names.trim() != user?.names.trim() ||
+      formData.phone.trim() != user?.phone.trim() ||
+      formData.email.trim() != user?.email.trim()
+    );
+  };
+  useEffect(() => {
+    setToggleChanges(hasChanged());
+  }, [formData, user]);
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const errorMsg = {};
-    errorMessages(formData, errorMsg);
+    if (!formData.phone || !formData.phone.trim()) {
+      errorMsg.phone = "Phone is required";
+    } else if (formData.phone.trim().length != 9) {
+      errorMsg.phone = "Phone must be 9 digits";
+    } else if (formData.phone.trim().slice(0, 1) != 6) {
+      errorMsg.phone = "Phone number must begin with 6";
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!formData.email || !formData.email.trim()) {
+      errorMsg.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      errorMsg.email = "Invalid email format";
+    }
+    if (!formData.names || !formData.names.trim()) {
+      errorMsg.names = "Name is required";
+    }
     if (Object.keys(errorMsg).length === 0) {
-      alert("submitted");
+      toast.success("Profile has been updated successfully", {theme: "dark"});
+      setModal(false);
     }
     setError(errorMsg);
   };
@@ -37,12 +65,22 @@ export default function Profile({ setModal }) {
     if (user) {
       setFormData((prevData) => ({
         ...prevData,
-        names: user.names || prevData.names,
-        phone: user.phone || prevData.phone,
-        email: user.email || prevData.email,
+        names: user?.names || prevData.names,
+        phone: user?.phone || prevData.phone,
+        email: user?.email || prevData.email,
       }));
     }
   }, []);
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body")[0];
+    displayModal
+      ? (body.style.overflow = "hidden")
+      : (body.style.overflow = "");
+    return () => {
+      body.style.overflow = "";
+    };
+  }, [displayModal]);
   return (
     <>
       <div className={`${styles.container} rounded-xl bg-white shadow-xl`}>
@@ -106,23 +144,26 @@ export default function Profile({ setModal }) {
           </div>
           {error.email && <p className="text-red-600 mt-2">{error.email}</p>}
 
-          <div className="mt-3">
-            <button
-              type="submit"
-              className="no-underline text-white bg-green-800 w-full rounded-lg px-4 py-2 hover:bg-green-600 transition-all duration-300 ease-in-out"
-            >
-              Validate changes
-            </button>
-          </div>
-          <div className="mt-5">
+          {toggleChanges && (
+            <div className="mt-3">
+              <button
+                type="submit"
+                className="no-underline text-white bg-gray-600 w-full rounded-lg px-4 py-2 hover:bg-green-600 transition-all duration-300 ease-in-out"
+              >
+                Validate changes
+              </button>
+            </div>
+          )}
+          <div className="mt-2">
             <button
               type="button"
               onClick={() => signOut()}
-              className="no-underline text-white bg-red-800 rounded-lg px-4 py-2 hover:bg-red-600 transition-all duration-300 ease-in-out"
+              className="no-underline text-white bg-gray-950 rounded-lg px-4 py-2 hover:bg-red-600 transition-all duration-300 ease-in-out w-full"
             >
               Logout
             </button>
           </div>
+          <div></div>
         </form>
       </div>
     </>
