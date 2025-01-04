@@ -54,7 +54,11 @@ export default function LecturerNav() {
       {profileModal && (
         <div style={style.modalDiv} onClick={() => setProfileModal(false)}>
           <div onClick={(e) => e.stopPropagation()}>
-            <Profile setModal={setProfileModal} displayModal={profileModal} />
+            <Profile
+              setModal={setProfileModal}
+              displayModal={profileModal}
+              customStyle={false}
+            />
           </div>
         </div>
       )}

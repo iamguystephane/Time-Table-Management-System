@@ -11,10 +11,11 @@ import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../../global states/form-context";
 import sendData from "../../../../lib/sendData";
 import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
-import EditData from "../../../../lib/edit-lecturer-data";
+import updateTeacherAvailability from "../../../../lib/updateTeacherAvailability";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import errorMessages from "../../scripts/form-auth";
+import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 
 const Form = ({ setDisplayModal, data }) => {
@@ -51,20 +52,19 @@ const Form = ({ setDisplayModal, data }) => {
       setSubmitLoad(false);
     }
   };
-
+  function generateRandomID() {
+    return uuidv4();
+  }
   const updateTeacher = async () => {
-    try {
-      setUpdateLoad(true);
-      const res = await EditData(updatedFormData);
-      if (!res.ok) {
-        const data = await res.json();
-        toast.error(data.error);
-      }
-    } catch (err) {
-      toast.error("Internal server error. Please try again later");
-    } finally {
-      setUpdateLoad(false);
+    setUpdateLoad(true);
+    const method = "PUT";
+    const res = await updateTeacherAvailability(updatedFormData, method);
+    if (res.error) {
+      toast.error(data.error);
+      return;
     }
+    toast.success('You are now the backup teacher for this course');
+    setUpdateLoad(false);
   };
   useEffect(() => {
     const fetchAvailability = async () => {
@@ -121,6 +121,7 @@ const Form = ({ setDisplayModal, data }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
+      id: generateRandomID(),
       ...prevData,
       departmentAbbreviation: departmentAbbr,
       [name]: name === "phone" ? value.replace(/\D/g, "").slice(0, 9) : value,

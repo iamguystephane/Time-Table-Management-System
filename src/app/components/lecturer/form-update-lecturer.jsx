@@ -7,41 +7,39 @@ import { time, degTime } from "../../scripts/time";
 import "../../styles/availability-form.css";
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../../global states/form-context";
-import EditData from "../../../../lib/edit-lecturer-data";
 import getTeacherAvailability from "../../../../lib/getTeacherAvailability";
+import updateTeacherAvailability from "../../../../lib/updateTeacherAvailability";
 import { toast } from "react-toastify";
 import Loading from "../../../loading/loading";
 
-const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
+const Form = ({ teacherInfo }) => {
   const { formData, setFormData } = useContext(formContext);
   const [semester, setSemester] = useState("select level to apply");
   const [coursesArray, setCoursesArray] = useState([]);
   const [error, setError] = useState({});
   const [departmentAbbr, setDepartmentAbbr] = useState(null);
-  const [fetchedData, setFetchedData] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   //function to edit teacher record
   const EditTeacher = async (data) => {
     try {
       setIsUpdating(true);
-      const res = await EditData(data);
+      const method = "PUT";
+      const res = await updateTeacherAvailability(data, method);
       if (Object.keys(errorMsg).length === 0) {
-        if (!res.ok) {
-          const error = await res.json();
-          toast.error(error.error);
-          return;
+        if (res.message) {
+          toast.success(res.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error(res.error);
         }
-        toast.success("Lecturer has been updated successfully");
       }
     } catch (err) {
       toast.error("Internal server error, please try again later");
     } finally {
       setIsUpdating(false);
     }
-    setCheckTeacherInfo(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -114,7 +112,6 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
   useEffect(() => {
     if (teacherInfo) {
       setFormData((prevData) => ({
-        id: teacherInfo.id,
         ...prevData,
         names: teacherInfo.names || prevData.names,
         email: teacherInfo.email || prevData.email,
@@ -191,12 +188,9 @@ const Form = ({ teacherInfo, updateConfirmation, setCheckTeacherInfo }) => {
     }
     setError(errorMsg);
     if (Object.keys(errorMsg).length === 0) {
-      const updatedFormData = fetchedData.find(
-        (teacher) =>
-          teacher.email.toLowerCase().trim() ===
-          formData.email.toLowerCase().trim()
-      );
-      const updateWithMatch = { ...updatedFormData, ...formData };
+      console.log("formData: ", formData);
+      const updateWithMatch = { ...teacherInfo, ...formData };
+      console.log("matched plus updated ", updateWithMatch);
       EditTeacher(updateWithMatch);
       setFormData({
         names: "",

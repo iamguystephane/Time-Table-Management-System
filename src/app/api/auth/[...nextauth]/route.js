@@ -38,14 +38,14 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/login",
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user._id;
+        token.id = user.id;
         token.email = user.email;
         token.status = user.status;
         token.names = user.names;

@@ -12,6 +12,9 @@ const availabilitySchema = new Schema({
   course: { type: String, required: true },
   day: { type: String, required: true },
   time: { type: String, required: true },
+  backupTeacherNames: { type: String },
+  backupTeacherEmail: { type: String },
+  backupTeacherPhone: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

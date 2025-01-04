@@ -64,7 +64,7 @@ const Login = () => {
           } else if (userStatus === "Admin") {
             router.push("/admin");
           } else {
-            router.push("/student-dashboard");
+            router.push("/student");
           }
         }
         toast.success('Logged in sucessfully', {theme: 'dark'});

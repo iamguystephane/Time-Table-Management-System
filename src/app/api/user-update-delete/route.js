@@ -9,7 +9,7 @@ export async function PUT(req) {
     const res = await User.updateOne({ id: formData.id }, { $set: formData });
     if (res.modifiedCount > 0) {
       console.log("Updated successfully");
-      console.log(formData)
+      console.log(formData);
       return NextResponse.json(
         { message: "User Updated successfully" },
         { status: 201 }
@@ -36,7 +36,7 @@ export async function DELETE(req) {
   try {
     const formData = await req.json();
     await connectMongoDB();
-    console.log(formData)
+    console.log(formData);
     const res = await User.deleteOne({ id: formData.id });
     if (res.deletedCount > 0) {
       return NextResponse.json(

@@ -5,6 +5,7 @@ import { MdPerson } from "react-icons/md";
 import { MdCases } from "react-icons/md";
 import styles from "./page.module.css";
 import getTeacherAvailability from "../../../../../../lib/getTeacherAvailability";
+import Loading from "../../../../../loading/loading";
 import { MdDownload } from "react-icons/md";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
@@ -12,23 +13,25 @@ import { jsPDF } from "jspdf";
 const semesters = ({ params }) => {
   const { departmentsID, semester, levelID } = React.use(params);
   //fetching the teacher availabilities
-  const [availabilities, setAvailabilities] = React.useState([{}]);
+  const [availabilities, setAvailabilities] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    const getAvailabilities = async () => {
-      try {
-        const response = await getTeacherAvailability();
-        if (response.error) {
-          console.log(response.error);
-        } else {
-          setAvailabilities(response);
-        }
-      } catch (err) {
-        console.log(err);
+    const retrieveData = async () => {
+      setIsLoading(true);
+      const result = await getTeacherAvailability();
+      if (result.error) {
+        return;
+      } else {
+        setAvailabilities(result);
       }
+      setIsLoading(false);
     };
-    getAvailabilities();
+    retrieveData();
   }, []);
+  React.useEffect(() => {
+    console.log("lecturer availabilities ", availabilities);
+  }, [availabilities]);
   //rerouting to the 404 page if the semester entered on the URL is not found.
   const router = useRouter();
   if (
@@ -155,6 +158,16 @@ const semesters = ({ params }) => {
       console.error("Error generating PDF:", error);
     }
   };
+  if (isLoading) {
+    return (
+      <div
+        className="flex items-center justify-center"
+        style={{ width: "100%", height: "100vh" }}
+      >
+        <Loading message="getting timetable" />
+      </div>
+    );
+  }
   return (
     <>
       <button
@@ -200,7 +213,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -216,7 +229,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -232,7 +245,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -257,7 +270,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -273,7 +286,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -289,7 +302,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -314,7 +327,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -330,7 +343,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -346,7 +359,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -371,7 +384,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -387,7 +400,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -403,7 +416,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -428,7 +441,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -444,7 +457,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -460,7 +473,7 @@ const semesters = ({ params }) => {
                         teacher.time === "8:00 - 10:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -487,7 +500,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -503,7 +516,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -519,7 +532,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -544,7 +557,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -560,7 +573,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -576,7 +589,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -601,7 +614,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -617,7 +630,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -633,7 +646,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -658,7 +671,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -674,7 +687,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -690,7 +703,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -715,7 +728,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -731,7 +744,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -747,7 +760,7 @@ const semesters = ({ params }) => {
                         teacher.time === "10:15 - 12:15" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -774,7 +787,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -790,7 +803,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -806,7 +819,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Monday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -831,7 +844,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -847,7 +860,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -863,7 +876,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Tuesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -888,7 +901,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -904,7 +917,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -920,7 +933,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Wednesday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -945,7 +958,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -961,7 +974,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -977,7 +990,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Thursday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>
@@ -1002,7 +1015,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.course}</span>
@@ -1018,7 +1031,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}> {teacher.names}</span>
@@ -1034,7 +1047,7 @@ const semesters = ({ params }) => {
                         teacher.time === "13:00 - 15:00" &&
                         teacher.day === "Friday" &&
                         teacher.level === level &&
-                        teacher.semester === number
+                        teacher.semester == number
                     )
                     .map((teacher) => (
                       <span key={teacher.id}>

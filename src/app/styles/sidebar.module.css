@@ -10,7 +10,12 @@
   margin: 0;
   transition: all 360ms ease-in-out;
 }
-
+.hide {
+  transform: translateX(-100%);
+}
+.show {
+  transform: translateX(-61%);
+}
 .sidebar.collapsed {
   width: 45px;
   padding: 10px;
@@ -19,7 +24,8 @@
   align-items: center;
   justify-content: center;
 }
-.menuBtn, .backBtn{
+.menuBtn,
+.backBtn {
   position: absolute;
   color: white;
   top: 0;
@@ -32,35 +38,39 @@
 .backBtn {
   top: 50;
 }
-.menuBtn:hover, .backBtn:hover {
+.menuBtn:hover,
+.backBtn:hover {
   background: rgba(255, 255, 255, 0.068);
   color: white;
 }
-.manBtn, .tableBtn {
+.manBtn,
+.tableBtn {
   cursor: pointer;
   border-radius: 8px;
 }
 
-.manBtn.center, .tableBtn.center {
-    position: absolute;
-    left: -10;
-    padding: 5px;
-    transition: background 360ms ease-in-out;
+.manBtn.center,
+.tableBtn.center {
+  position: absolute;
+  left: -10;
+  padding: 5px;
+  transition: background 360ms ease-in-out;
 }
-.manBtn.center:hover, .tableBtn.center:hover {
-    background:rgba(255, 255, 255, 0.068);
+.manBtn.center:hover,
+.tableBtn.center:hover {
+  background: rgba(255, 255, 255, 0.068);
 }
 .ul {
   list-style: none;
   margin: auto;
-  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 40px;
 }
-.li, .list {
+.li,
+.list {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,27 +81,31 @@
   border-radius: 8px;
   position: absolute;
   top: 20%;
+  left: 1%;
   gap: 10px;
-  width: 100%;
+  width: 97%;
 }
 .list {
   top: 35%;
 }
-.noList, .noListMan {
-    position: absolute;
-    left: 10;
-    color: white;
-    text-decoration: none;
-    top: 35%;
+.noList,
+.noListMan {
+  position: absolute;
+  left: 10;
+  color: white;
+  text-decoration: none;
+  top: 35%;
 }
 .noListMan {
-    top: 20%;
+  top: 20%;
 }
-.noList:hover, .noListMan:hover {
-    color: white;
+.noList:hover,
+.noListMan:hover {
+  color: white;
 }
-.noListMan span, .noList span {
-    display: none;
+.noListMan span,
+.noList span {
+  display: none;
 }
 .li:hover,
 .list:hover {
@@ -116,7 +130,7 @@
   transition: background 360ms ease-in-out;
 }
 .profile:hover {
-  background:rgba(255, 255, 255, 0.068);
+  background: rgba(255, 255, 255, 0.068);
 }
 .profileCollapse span {
   display: none;
@@ -138,7 +152,7 @@
   cursor: pointer;
 }
 .image.collapsedImage:hover {
-  background:rgba(255, 255, 255, 0.068);
+  background: rgba(255, 255, 255, 0.068);
 }
 .profile span {
   color: white;

@@ -2,6 +2,7 @@
 
 import { useState, useContext, useEffect } from "react";
 import { formContext } from "../../../global states/form-context"
+import { toast } from 'react-toastify';
 
 export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   //importing my form state setter and matched lecturer from context
@@ -37,9 +38,9 @@ export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
   const yesClick = () => {
     if (!match.backupTeacherNames) {
       updateFunction();
-      alert("You have been assigned as a backup teacher");
       setTimeout(() => {
         setDisplayModal(false);
+        window.location.reload();
       }, 2000);
       setFormData({
         names: "",
@@ -53,7 +54,7 @@ export default function ConfirmPeriod({ dataFromForm, setDisplayModal }) {
         time: "",
       });
     } else {
-      alert("A backup teacher has already been selected for this course!");
+      toast.error("A backup teacher has already been selected for this course!");
       setTimeout(() => {
         setDisplayModal(false);
       }, 2000);

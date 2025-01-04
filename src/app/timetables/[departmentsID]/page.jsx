@@ -1,6 +1,6 @@
 "use client";
 
-import style from "../styles/page.module.css";
+import style from "../../styles/time-tables.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";

@@ -8,13 +8,14 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function Profile({ setModal, displayModal }) {
+export default function Profile({ setModal, displayModal, customStyle }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     names: "",
     phone: "",
     email: "",
   });
-  const { data: user } = useSession();
+  const { data: user, status } = useSession();
   const [error, setError] = useState({});
   const [toggleChanges, setToggleChanges] = useState(false);
   const handleOnChange = (e) => {
@@ -55,13 +56,13 @@ export default function Profile({ setModal, displayModal }) {
       errorMsg.names = "Name is required";
     }
     if (Object.keys(errorMsg).length === 0) {
-      toast.success("Profile has been updated successfully", {theme: "dark"});
+      toast.success("Profile has been updated successfully", { theme: "dark" });
       setModal(false);
     }
     setError(errorMsg);
   };
   useEffect(() => {
-    console.log(user);
+    console.log('user', user);
     if (user) {
       setFormData((prevData) => ({
         ...prevData,
@@ -73,24 +74,33 @@ export default function Profile({ setModal, displayModal }) {
   }, []);
 
   useEffect(() => {
-    const body = document.getElementsByTagName("body")[0];
-    displayModal
-      ? (body.style.overflow = "hidden")
-      : (body.style.overflow = "");
-    return () => {
-      body.style.overflow = "";
-    };
+    if (typeof window !== "undefined") {
+      const body = document.body;
+      body.style.overflow = displayModal ? "hidden" : "";
+      return () => {
+        body.style.overflow = "";
+      };
+    }
   }, [displayModal]);
+  useEffect(() => {
+    setIsLoading(true);
+    console.log('status: ', status)
+  }, []);
+
   return (
     <>
-      <div className={`${styles.container} rounded-xl bg-white shadow-xl`}>
-        <form
+      <div
+        className={`${
+          customStyle ? styles.pushedContainer : styles.container
+        } rounded-xl bg-white shadow-xl`}
+      >
+        {status != 'loading' ? (<form
           className={`${styles.form} flex-col items-center justify-center`}
           onSubmit={handleOnSubmit}
         >
           <div className={`position-relative`}>
             <Image
-              src="/profile.jpeg"
+              src={user?.profileImage || "/profile.jpeg"}
               width={200}
               height={200}
               alt="profile-picture"
@@ -164,7 +174,7 @@ export default function Profile({ setModal, displayModal }) {
             </button>
           </div>
           <div></div>
-        </form>
+        </form>) : <div> Loading... </div>}
       </div>
     </>
   );

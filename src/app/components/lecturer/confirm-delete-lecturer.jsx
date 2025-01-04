@@ -1,38 +1,35 @@
 "use client";
 
 import style from "../../styles/confirm-delete.module.css";
-import deleteData from "../../../../lib/deleteData";
+import updateTeacherAvailability from "../../../../lib/updateTeacherAvailability";
 import { toast } from "react-toastify";
 import Loading from "../../../loading/loading";
 import { useState } from "react";
 
 const ConfirmLecturerDelete = ({
   checkDeleteTeacher,
-  recordToDelete,
-  setDeleteConfirmation,
+  recordToDelete
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const confirmDelete = async () => {
     try {
       setIsDeleting(true);
-      const res = await deleteData(recordToDelete);
-      if (!res.ok) {
-        const data = await res.json();
+      const method = 'DELETE';
+      const res = await updateTeacherAvailability(recordToDelete, method);
+      if (res.error) {
         toast.error(data.error);
         return;
       }
-      console.log(`Successfully deleted ${recordToDelete.names}`);
-      toast.success("Successfully deleted record");
-      setDeleteConfirmation(true);
+      toast.success(res.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     } catch (err) {
       toast.error('Internal server error. Please try again later');
     } finally {
       setIsDeleting(false);
     }
     checkDeleteTeacher(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 4000);
   };
 
   if (isDeleting) {

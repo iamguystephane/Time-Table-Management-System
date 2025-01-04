@@ -36,7 +36,9 @@ const Teachers = ({
 
   // function to edit teacher record
   const handleEditTeacher = (teacherIndex) => {
-    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
+    const teacher = teacherAvailability.find(
+      (teacher) => teacher.id === teacherIndex
+    );
     setTeacherInfo(teacher);
     checkTeacherClick(true);
   };
@@ -62,7 +64,9 @@ const Teachers = ({
   };
   // function to delete a teacher
   const confirmDelete = (teacherIndex) => {
-    const teacher = teacherAvailability.find(teacher => teacher.id === teacherIndex);
+    const teacher = teacherAvailability.find(
+      (teacher) => teacher.id === teacherIndex
+    );
     checkDeleteTeacher(true);
     setRecordToDelete(teacher);
     console.log(teacher);
@@ -84,7 +88,7 @@ const Teachers = ({
           <div className={style.displayStudents}>
             {isLoading ? (
               <div className={style.loading}>
-                <Loading message='Fetching data' />
+                <Loading message="Fetching data" />
               </div>
             ) : errMsg.length > 0 ? (
               <div className={style.fetchError}>
@@ -112,12 +116,14 @@ const Teachers = ({
                 <tbody>
                   {filteredData.map((data, index) => (
                     <tr key={index}>
-                      <td>{data.names}</td>
-                      <td>{data.email}</td>
-                      <td>{data.phone}</td>
-                      <td>{data.departmentAbbreviation}</td>
+                      <td style={{ width: "20%" }}>{data.names}</td>
+                      <td style={{ width: "20%" }}>{data.email}</td>
+                      <td style={{ width: "12%" }}>{data.phone}</td>
+                      <td style={{ width: "21%" }}>
+                        {data.departmentAbbreviation}
+                      </td>
                       <td>{data.course}</td>
-                      <td style={{display: 'flex'}}>
+                      <td style={{ display: "flex" }}>
                         <FaEdit
                           size={28}
                           className={style.pencilIcon}
