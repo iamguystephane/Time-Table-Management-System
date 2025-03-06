@@ -62,7 +62,7 @@ const Login = () => {
           if (userStatus === "Lecturer") {
             router.push("/lecturer");
           } else if (userStatus === "Admin") {
-            router.push("/admin");
+            router.push("/admin/manage-lecturer-availabilities");
           } else {
             router.push("/student");
           }

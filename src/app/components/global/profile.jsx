@@ -100,7 +100,7 @@ export default function Profile({ setModal, displayModal, customStyle }) {
         >
           <div className={`position-relative`}>
             <Image
-              src={user?.profileImage || "/profile.jpeg"}
+              src={user?.profileImage || "/github.jpg"}
               width={200}
               height={200}
               alt="profile-picture"
